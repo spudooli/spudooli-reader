@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h2>{% block title %}{% endblock %}</h2>
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-sm-3">
+      
+        </div>
+
+        <div class="col-sm-9">
+            <div class="postitem" style="overflow:hidden">
+                <h2>About Spudooli Reader</h2>
+               <p>I was a long time fan of Google Reader. When it bit the dust I installed <a href="https://tt-rss.org/">Tiny Tiny RSS</a> and was a fan of that instead.</p>
+
+               <p>Years go by.</p>
+
+               <p>Then a new server build eventually meant Tiny Tiny RSS needed to be moved. A check of the site revealed that Docker was the only supported method of hosting. 
+                   There was some details of how to host the site without Docker, so that eas attempted. And failed. Given it's built in PHP anyway, my motivation to sort it was extremely low.
+                   After a look around, just about every other feed reader also required Docker. So nope. Nope, Docker is not the answer.</p>
+
+                <p>Paying for a reader service, and there are very many good ones, is anathema to me as I much prefer everything under my control. That is what 
+                    <a href="https://www.spudooli.com/photoblog/415">the internet is about</a>.</p>
+
+                <p>So here we are. I coded my own RSS Feed Reader in a weekend and am much happier for it. </p>
+
+                <p><a href="https://github.com/spudooli/spudooli-reader">Spudooli Reader</a> is a Python Flask application with MySQL for data storage, Bootstrap 5 and some basic 
+                    javascript complete the thing.</p>
+                
+                <p>It is my app. But you may use all or any of it. Help yourself.</p>
+                
+                </div>
+                    {% endblock %}
+
+
+
+
+
+        </div>
+    </div>
+</div>
