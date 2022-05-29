@@ -6,9 +6,11 @@ Here is some minimal help to get you going, but you'll need to know how to insta
 Install Flask - https://flask.palletsprojects.com/en/2.1.x/installation/
 
 I think the only additional Python things to install is...
-`pip3 install feedparser`
-`pip3 install mysql-connector-python`
-`pip3 install flask_mysqldb`
+```
+pip3 install feedparser
+pip3 install mysql-connector-python
+pip3 install flask_mysqldb
+```
 
 There is a mysql dump in the bin directory to create your database that matches mine.
 
