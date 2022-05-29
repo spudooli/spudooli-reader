@@ -11,59 +11,58 @@
             </div>
 
             <h2>Feeds</h2>
-            
+
             {% for item in unreadcounts %}
             <div class="feeds_container">
                 <div class="feedname">{{ item[0] }}</div>
-                <div class="feedunreadcount" id="{{ item[2] }}" >{{ item[1] }}</div>
+                <div class="feedunreadcount" id="{{ item[2] }}"><strong>{{ item[1] }}</strong></div>
             </div>
-                <hr class="d-sm-none">
-            
-                {% endfor %}
-            
+            <hr class="d-sm-none">
+            {% endfor %}
         </div>
-
-
-
-
         <div class="col-sm-9">
             <div class="postitem" style="overflow:hidden">
                 {% for item in newsitems %}
-                <div id="skiddly-{{ item[0] }}" onfocus="getfocus({{ item[0] }},{{ item[7] }})" onclick="getfocus({{ item[0] }},{{ item[7] }})" tabindex="{{ item[0] }}">
-                    <small><div style="float:right;">{{item[6].strftime('%A, %-d %B, %Y %-H:%M')}}</div></small><h6>{{item[5]}} </h6>
-                {% if item[1] == None %}<h3></h3>
-                {% else %}<h3><a href="{{ item[2]}}">{{ item[1]}}</a></h3>
-            
-                {% endif %}
-                        {{item[3] | safe}}
-                        <hr>
-            </div>
-                    {% endfor %}
-                
+                <div id="skiddly-{{ item[0] }}" onfocus="getfocus({{ item[0] }},{{ item[7] }})"
+                    onclick="getfocus({{ item[0] }},{{ item[7] }})" tabindex="{{ item[0] }}">
+                    <small>
+                        <div style="float:right;">{{item[6].strftime('%A, %-d %B, %Y %-H:%M')}}</div>
+                    </small>
+                    <h6>{{item[5]}} </h6>
+                    {% if item[1] == None %}<h3></h3>
+                    {% else %}<h3><a href="{{ item[2]}}">{{ item[1]}}</a></h3>
+
+                    {% endif %}
+                    {{item[3] | safe}}
+                    <hr>
                 </div>
+                {% endfor %}
 
-                <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js" type="text/javascript"></script>
-                <script>
-                  function unreadcount() {
+            </div>
+
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"
+                type="text/javascript"></script>
+            <script>
+                function unreadcount() {
                     $.get('unreadcount', function (data) {
-                      $('#unreadcount').text(data);
+                        $('#unreadcount').text(data);
                     });
-                  }
-                
-                  $(document).ready(function () {
+                }
+
+                $(document).ready(function () {
                     setInterval(unreadcount, 60000);
-                  });
-                
-                  function start() {
+                });
+
+                function start() {
                     unreadcount();
-                  }
-                
+                }
+
                 window.onload = start;
-                </script>
+            </script>
 
-                    {% endblock %}
+            {% endblock %}
 
-   
+
 
 
 
