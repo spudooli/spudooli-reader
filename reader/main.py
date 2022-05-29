@@ -1,5 +1,5 @@
 from reader import app, db
-from flask import render_template, request
+from flask import render_template, request, send_from_directory
 from datetime import date
 from werkzeug.security import check_password_hash
 from reader.auth import login_required
@@ -65,6 +65,11 @@ def readinglist():
 @app.route('/about')
 def about():
     return render_template('about.html')
+
+@app.route('/robots.txt')
+@app.route('/sitemap.xml')
+def static_from_root():
+    return send_from_directory(app.static_folder, request.path[1:])
 
 
 @app.errorhandler(404)

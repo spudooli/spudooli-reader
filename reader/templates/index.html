@@ -14,7 +14,7 @@
 
             {% for item in unreadcounts %}
             <div class="feeds_container">
-                <div class="feedname">{{ item[0] }}</div>
+                <div class="feedname">{{ item[0]|truncate(22) }}</div>
                 <div class="feedunreadcount" id="{{ item[2] }}"><strong>{{ item[1] }}</strong></div>
             </div>
             <hr class="d-sm-none">
