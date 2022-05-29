@@ -27,15 +27,16 @@ def processrss(url, feed_title, feedid):
         link = entry.get("link")
         urlhash = hashlib.md5(link.encode())
         description = entry.get("description")
+        if entry.get("content"):
+            description = entry.get("content")[0]["value"]
+        # TODO Fix for my timezone
         published = entry.get("published_parsed")
-
-        #published = datetime.strptime(str(published), '%a, %d %b %Y %H:%M:%S %z')
         published = strftime("%Y-%m-%d %H:%M:%S", published)
         print(published)
         dateUpdated = datetime.now()
         print(title)
         cursor.execute(
-            "INSERT INTO feed_items (title, url, urlhash, content, feed_title, date_published, date_updated, feed_id) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)",
+            "INSERT ignore INTO feed_items (title, url, urlhash, content, feed_title, date_published, date_updated, feed_id) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)",
             (title, link, urlhash.hexdigest(), description, feed_title, published, dateUpdated, feedid))
 
         connection.commit()

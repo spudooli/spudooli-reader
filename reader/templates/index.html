@@ -6,10 +6,16 @@
     <div class="row">
         <div class="col-sm-3">
             <h2>Feeds</h2>
+            
             {% for item in unreadcounts %}
-                <p>{{ item[0] }} - {{ item[1] }}</p>
+            <div class="feeds_container">
+                <div class="feedname">{{ item[0] }}</div>
+                <div class="feedunreadcount" id="{{ item[2] }}" >{{ item[1] }}</div>
+            </div>
                 <hr class="d-sm-none">
-            {% endfor %}
+            
+                {% endfor %}
+            
         </div>
 
 
@@ -18,7 +24,7 @@
         <div class="col-sm-9">
             <div class="postitem" style="overflow:hidden">
                 {% for item in newsitems %}
-                <div id="skiddly-{{ item[0] }}" onfocus="getfocus({{ item[0] }})" onclick="getfocus({{ item[0] }})" tabindex="{{ item[0] }}">
+                <div id="skiddly-{{ item[0] }}" onfocus="getfocus({{ item[0] }},{{ item[7] }})" onclick="getfocus({{ item[0] }},{{ item[7] }})" tabindex="{{ item[0] }}">
                     <small><div style="float:right;">{{item[6].strftime('%A, %-d %B, %Y %-H:%M')}}</div></small><h6>{{item[5]}} </h6>
                 {% if item[1] == None %}<h3></h3>
                 {% else %}<h3><a href="{{ item[2]}}">{{ item[1]}}</a></h3>

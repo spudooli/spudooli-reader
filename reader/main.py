@@ -6,14 +6,14 @@ from datetime import date
 @app.route("/")
 def index():
     cursor = db.mysql.connection.cursor()
-    cursor.execute("SELECT `id`, `title`, `url`, `content`, `haveread`, `feed_title`, `date_published` FROM `feed_items` WHERE `haveread` IS NULL ORDER BY `date_published` DESC",)
+    cursor.execute("SELECT `id`, `title`, `url`, `content`, `haveread`, `feed_title`, `date_published`, feed_id FROM `feed_items` WHERE `haveread` IS NULL ORDER BY `date_published` ASC",)
     newsitems = cursor.fetchall()
     cursor.close()
 
     # Get a count of the items that have not been read grouped by feed title
     cursor = db.mysql.connection.cursor()
     cursor.execute(
-        "SELECT `feed_title`, COUNT(id) id FROM `feed_items` WHERE `haveread` IS NULL GROUP BY `feed_title`")
+        "SELECT `feed_title`, COUNT(id) id, feed_id FROM `feed_items` WHERE `haveread` IS NULL GROUP BY `feed_title`, feed_id ")
     unreadcounts = cursor.fetchall()
 
     return render_template('index.html', newsitems=newsitems, unreadcounts=unreadcounts)
@@ -22,9 +22,7 @@ def index():
 @app.route("/read", methods=['POST'])
 def read():
     request_data = request.get_json()
-    print(request_data)
     itemid = request_data['feedid']
-    print(itemid)
     cursor = db.mysql.connection.cursor()
     cursor.execute(
         "UPDATE `feed_items` SET `haveread` = '1' WHERE `id` = %s", (itemid,))
