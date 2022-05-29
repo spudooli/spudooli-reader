@@ -14,3 +14,5 @@ function getfocus(a,b) {
         feedid: itemid
     }));
 };
+
+setTimeout("location.reload(true);", 900000);

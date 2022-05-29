@@ -45,3 +45,11 @@ text-decoration: underline;
     font-family: "Oswald", sans-serif;
     letter-spacing: 2px;
   }
+
+  #a500 {
+    padding: 5px;
+    background: #fff;
+    font-size: 200px;
+    text-align: left;
+    margin-bottom: 20px;
+    }
