@@ -1,9 +1,13 @@
 from reader import app, db
-from flask import render_template, redirect, url_for, request, flash
+from flask import render_template, request
 from datetime import date
+from werkzeug.security import check_password_hash
+from reader.auth import login_required
+
 
 
 @app.route("/")
+@login_required
 def index():
     cursor = db.mysql.connection.cursor()
     cursor.execute("SELECT `id`, `title`, `url`, `content`, `haveread`, `feed_title`, `date_published`, feed_id FROM `feed_items` WHERE `haveread` IS NULL ORDER BY `date_published` ASC",)
