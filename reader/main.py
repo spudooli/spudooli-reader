@@ -34,6 +34,17 @@ def read():
     cursor.close()
     return "ok"
 
+@app.route("/readinglist")
+def readinglist():
+    cursor = db.mysql.connection.cursor()
+    cursor.execute("SELECT `id`, `title`, `websiteurl`FROM `feeds`ORDER BY `id` ASC",)
+    readinglist = cursor.fetchall()
+    cursor.close()
+
+    return render_template('readinglist.html', readinglist = readinglist)
+
+
+
 @app.route('/about')
 def about():
     return render_template('about.html')
