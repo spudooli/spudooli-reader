@@ -44,6 +44,8 @@ def unreadcount():
     print(unreadcount)
     if unreadcount[0] == 0:
         unreadcount = " "
+    else:
+        unreadcount = str(unreadcount[0])
     cursor.close()
 
     return unreadcount
