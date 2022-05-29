@@ -20,7 +20,6 @@ def load_logged_in_user():
         cursor = db.mysql.connection.cursor()
         cursor.execute('SELECT * FROM users WHERE id = %s', (user_id,) )
         g.user = cursor.fetchone()
-        print(g.user)
 
 def login_required(view):
     @functools.wraps(view)

@@ -2,22 +2,22 @@
 
 echo "Copying the app..."
 
-cp -p /home/dave/Sites/house-dashboard/app.py /var/www/dashboard.spudooli.com/
+cp -p /home/dave/Sites/reader/reader/* /var/www/reader/reader/
 
 
 echo "Deploying the static assets..."
 
-cp -p /home/dave/Sites/house-dashboard/static/* /var/www/dashboard.spudooli.com/static/
-cp -p /home/dave/Sites/house-dashboard/config.py /var/www/dashboard.spudooli.com/config.py
+cp -p /home/dave/Sites/reader/reader/static/* /var/www/reader/reader/static/
+cp -p /home/dave/Sites/reader/reader/config.py /var/www/reader/reader/config.py
 
 echo "Deploying the templates..."
-cp -p /home/dave/Sites/house-dashboard/templates/* /var/www/dashboard.spudooli.com/templates/*
+cp -rp /home/dave/Sites/reader/reader/templates/* /var/www/reader/reader/templates/
 
 echo "Clearing the production cache..."
-rm -rf /var/www/dashboard.spudooli.com/__pycache__
+rm -rf /var/www/reader/reader/__pycache__
 
 echo "Restarting Gunicorn..."
 cd /etc/systemd/system/
-systemctl restart dashboard.spudooli.com.service
+systemctl restart reader.spudooli.com.service
 
 echo "Done"
