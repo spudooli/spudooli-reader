@@ -5,7 +5,6 @@ from werkzeug.security import check_password_hash
 from reader.auth import login_required
 
 
-
 @app.route("/")
 @login_required
 def index():
@@ -32,17 +31,33 @@ def read():
         "UPDATE `feed_items` SET `haveread` = '1' WHERE `id` = %s", (itemid,))
     db.mysql.connection.commit()
     cursor.close()
+    
     return "ok"
+
+
+@app.route("/unreadcount")
+def unreadcount():
+    cursor = db.mysql.connection.cursor()
+    cursor.execute(
+        "SELECT COUNT(id) id FROM `feed_items` WHERE haveread IS NULL")
+    unreadcount = cursor.fetchone()
+    print(unreadcount)
+    if unreadcount[0] == 0:
+        unreadcount = " "
+    cursor.close()
+
+    return unreadcount
+
 
 @app.route("/readinglist")
 def readinglist():
     cursor = db.mysql.connection.cursor()
-    cursor.execute("SELECT `id`, `title`, `websiteurl`FROM `feeds`ORDER BY `id` ASC",)
+    cursor.execute(
+        "SELECT `id`, `title`, `websiteurl`FROM `feeds`ORDER BY `id` ASC",)
     readinglist = cursor.fetchall()
     cursor.close()
 
-    return render_template('readinglist.html', readinglist = readinglist)
-
+    return render_template('readinglist.html', readinglist=readinglist)
 
 
 @app.route('/about')

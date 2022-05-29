@@ -5,6 +5,11 @@
 <div class="container mt-5">
     <div class="row">
         <div class="col-sm-3">
+
+            <div class="counter-box">
+                <div class="counter-number" id="unreadcount"> {{ unreadcount | safe}}</div>
+            </div>
+
             <h2>Feeds</h2>
             
             {% for item in unreadcounts %}
@@ -36,9 +41,29 @@
                     {% endfor %}
                 
                 </div>
+
+                <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js" type="text/javascript"></script>
+                <script>
+                  function unreadcount() {
+                    $.get('unreadcount', function (data) {
+                      $('#unreadcount').text(data);
+                    });
+                  }
+                
+                  $(document).ready(function () {
+                    setInterval(unreadcount, 60000);
+                  });
+                
+                  function start() {
+                    unreadcount();
+                  }
+                
+                window.onload = start;
+                </script>
+
                     {% endblock %}
 
-
+   
 
 
 

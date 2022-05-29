@@ -36,3 +36,12 @@ text-decoration: underline;
     text-align: right;
 
   }
+
+  .counter-box div.counter-number {
+    font-size: 40px;
+    line-height: 60px;
+    color: rgb(0, 0, 0);
+    display: block;
+    font-family: "Oswald", sans-serif;
+    letter-spacing: 2px;
+  }
