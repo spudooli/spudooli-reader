@@ -1,7 +1,6 @@
 from reader import app, db
 from flask import render_template, request, send_from_directory
 from datetime import date
-from werkzeug.security import check_password_hash
 from reader.auth import login_required
 
 
