@@ -24,7 +24,7 @@ def index():
 @app.route("/read", methods=['POST'])
 def read():
     request_data = request.get_json()
-    itemid = request_data['feedid']
+    itemid = request_data['feed']
     cursor = db.mysql.connection.cursor()
     cursor.execute(
         "UPDATE `feed_items` SET `haveread` = '1' WHERE `id` = %s", (itemid,))
@@ -40,7 +40,6 @@ def unreadcount():
     cursor.execute(
         "SELECT COUNT(id) id FROM `feed_items` WHERE haveread IS NULL")
     unreadcount = cursor.fetchone()
-    print(unreadcount)
     if unreadcount[0] == 0:
         unreadcount = " "
     else:

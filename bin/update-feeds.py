@@ -22,6 +22,7 @@ def processrss(url, feed_title, feedid):
     try:
         feed = feedparser.parse(url)
         cursor = connection.cursor(buffered = True)
+        feeditemcount = len(feed["entries"])
         for entry in feed["entries"]:
             title = entry.get("title")
             link = entry.get("link")
@@ -43,8 +44,8 @@ def processrss(url, feed_title, feedid):
 
         # Update the feed's last updated date
         dateUpdated = datetime.now()
-        mysql_insert_query = "update feeds set last_checked = %s where id = %s"
-        values = (dateUpdated, feedid)
+        mysql_insert_query = "update feeds set last_checked = %s, feed_item_count = %s where id = %s"
+        values = (dateUpdated, feeditemcount, feedid)
         cursor.execute(mysql_insert_query, values)
         connection.commit()
 
