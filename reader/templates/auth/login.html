@@ -1,15 +1,30 @@
 {% extends 'base.html' %}
 
 {% block header %}
-  <h1>{% block title %}Log In{% endblock %}</h1>
+<h1>{% block title %}{% endblock %}</h1>
 {% endblock %}
 
 {% block content %}
-  <form method="post">
-    <label for="username">Username</label>
-    <input name="username" id="username" required><br>
-    <label for="password">Password</label>
-    <input type="password" name="password" id="password" required><br>
-    <input type="submit" value="Log In">
-  </form>
-{% endblock %}
+<div class="container mt-5">
+  <div class="row">
+    <div class="col-sm-3">
+
+    </div>
+
+    <div class="col-sm-9">
+      <div class="postitem" style="overflow:hidden">
+        <h3>Log in</h3>
+        <form method="post">
+            <div class="mb-3"></div>
+              <label for="username" class="form-label">Username</label>
+              <input name="username" class="form-control" id="username" required>
+              <div id="emailHelp" class="form-text">You don't have a username here</div>
+          </div>
+
+          <div class="mb-3">
+            <label for="password" class="form-label">Password</label>
+            <input type="password" class="form-control" name="password" id="password" required><br>
+            <input type="submit" value="Log In">
+          </div>
+      </form>
+      {% endblock %}

@@ -14,28 +14,21 @@
 </head>
 <body>
 
-<div class="p-1 bg-light text-black text-left">
-  <h1> &nbsp; &nbsp;&nbsp;Spudooli Reader</h1>
-</div>
+  <div class="container">
+    <header class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom">
+      <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-dark text-decoration-none">
+        <svg class="bi me-2" width="40" height="32"><use xlink:href="#bootstrap"/></svg>
+        <span class="fs-4"><h1>Spudooli Feed Reader</h1></span>
+      </a>
 
-<nav class="navbar navbar-expand-sm bg-secondary navbar-dark shadow-lg text-light">
-  <div class="container-fluid">
-    <ul class="navbar-nav">
-      <li class="nav-item">
-        <a class="nav-link active" href="#"></a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/">Read</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/about">About Spudooli Reader</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/readinglist">My Reading List</a>
-      </li>
-    </ul>
+      <ul class="nav ">
+        <li class="nav-item"><a href="/" class="nav-link">Read</a></li>
+        <li class="nav-item"><a href="#" class="nav-link"></a></li>
+        <li class="nav-item"><a href="/about" class="nav-link">About</a></li>
+        <li class="nav-item"><a href="/readinglist" class="nav-link">Reading List</a></li>
+      </ul>
+    </header>
   </div>
-</nav>
 {% block header %}{% endblock %}
 {% for message in get_flashed_messages() %}
 <div class="flash">{{ message }}</div>
