@@ -1,6 +1,8 @@
 # spudooli-reader
 An RSS feed reader made by me, just for me. But it can be for you too, if you want.
 
+![screenshot](screenshot.png)
+
 Here is some minimal help to get you going, but you'll need to know how to install and configure Python, Flask, Mysql, nginx and do some DNS. 
 
 Install Flask - https://flask.palletsprojects.com/en/2.1.x/installation/

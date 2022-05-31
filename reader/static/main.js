@@ -8,9 +8,7 @@ function getfocus(a, b) {
     document.getElementById(feedid).innerText = feedunread
     if (document.getElementById(feedid).innerText == 0) {
         document.getElementById(feedid).style.display = "none";
-        //document.getElementById("feedname-" + feedid).style.display = "none"
-        document.getElementById("feedname-" + feedid).remove
-
+        document.getElementById("feedname-" + feedid).style.display = "none"
     }
 
     // Decrement the total unread count and remove the count if 0 and update title tag
