@@ -5,8 +5,8 @@ flaskrun.sh
 __pycache__/
 *.py[cod]
 *$py.class
-
-
+config.py
+reader/config.py
 
 # C extensions
 *.so

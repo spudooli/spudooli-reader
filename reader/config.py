@@ -1,3 +1,3 @@
 from reader import app
 
-app.config['SECRET_KEY'] = 'Yousecretphrasegoeshere'
+app.config['SECRET_KEY'] = 'Yousecretpassfrasething'
