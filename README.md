@@ -25,4 +25,4 @@ from reader import app
 app.config['SECRET_KEY'] = 'SecretTextGoesHere'
 ```
 
-Follow some instructions somewhere on how to install and configure gunicorn - I did that in about 10 minutes o you can too.
+Follow some instructions somewhere on how to install and configure gunicorn - I did that in about 10 minutes you can too.

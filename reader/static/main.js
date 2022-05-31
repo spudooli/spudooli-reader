@@ -8,7 +8,9 @@ function getfocus(a, b) {
     document.getElementById(feedid).innerText = feedunread
     if (document.getElementById(feedid).innerText == 0) {
         document.getElementById(feedid).style.display = "none";
-        document.getElementById("feedname-" + feedid).style.display = "none"
+        //document.getElementById("feedname-" + feedid).style.display = "none"
+        document.getElementById("feedname-" + feedid).remove
+
     }
 
     // Decrement the total unread count and remove the count if 0 and update title tag
@@ -35,12 +37,3 @@ function getfocus(a, b) {
 };
 
 setTimeout("location.reload(true);", 900000);
-
-// // Update the title tag if there is unread posts
-// setInterval(updatetitletag, 60000);
-// function updatetitletag() {
-//     console.log("running...");
-//     if (document.getElementById("unreadcount").innerText > 0) {
-//         $(document).prop('title', document.getElementById("unreadcount").innerText + ' - Spudooli Feed Reader');
-//     }
-// }
