@@ -6,7 +6,7 @@ function getfocus(a, b) {
     // Decrement the feed unread count and remove the count and feed if 0
     feedunread = document.getElementById(feedid).innerText - 1;
     document.getElementById(feedid).innerText = feedunread
-    if (document.getElementById(feedid).innerText = 0) {
+    if (document.getElementById(feedid).innerText == 0) {
         document.getElementById(feedid).style.display = "none";
         document.getElementById("feedname-" + feedid).style.display = "none"
     }
@@ -15,7 +15,7 @@ function getfocus(a, b) {
     unreadcount = document.getElementById("unreadcount").innerText - 1;
     document.getElementById("unreadcount").innerText = unreadcount
     $(document).prop('title', document.getElementById("unreadcount").innerText + ' - Spudooli Feed Reader');
-    if (document.getElementById("unreadcount").innerText = 0) {
+    if (document.getElementById("unreadcount").innerText == 0) {
         document.getElementById("unreadcount").style.display = "none";
         $(document).prop('title', 'Spudooli Feed Reader');
     }
