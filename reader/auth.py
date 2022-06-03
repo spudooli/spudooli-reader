@@ -42,9 +42,13 @@ def login():
         user = cursor.fetchone()
 
         if user is None:
-            error = 'Incorrect username.'
+            error = 'Incorrect username or password.'
+            flash('Invalid username or password')
+            return redirect(url_for('auth.login'))
         elif not check_password_hash(user[2], password):
-            error = 'Incorrect password.'
+            error = 'Incorrect username or password.'
+            flash('Invalid username or password')
+            return redirect(url_for('auth.login'))
 
         if error is None:
             session.clear()
