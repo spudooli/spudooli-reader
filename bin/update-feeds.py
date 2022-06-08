@@ -55,6 +55,12 @@ def processrss(url, feed_title, feedid):
         cursor.close()
         return
 
+def cleanupfeeditems(feedid, feedItemCount):
+    cursor = db.mysql.connection.cursor()
+    cursor.execute("DELETE FROM feeditems WHERE id NOT IN(SELECT id, feedid FROM feeditems where feedid = %s ORDER BY id DESC LIMIT %s)) foo"), (feedid, feedItemCount)
+    db.mysql.connection.commit()
+    cursor.close()
+
 # Get feeds from the database and process them
 cursor = connection.cursor(buffered = True)
 cursor.execute("SELECT id, feedurl, title FROM feeds")
@@ -62,3 +68,12 @@ cursor.execute("SELECT id, feedurl, title FROM feeds")
 for row in cursor:
     print(row[1])
     processrss(row[1], row[2], row[0])
+
+
+# Get the feeds to cleanup old feeditems
+cursor = connection.cursor(buffered = True)
+cursor.execute("SELECT id, feeditemcount FROM feeds")
+
+for row in cursor:
+    print(row[1])
+    cleanupfeeditems(row[0], row[1])
