@@ -61,19 +61,21 @@ def cleanupfeeditems(feedid, feedItemCount):
     db.mysql.connection.commit()
     cursor.close()
 
-# Get feeds from the database and process them
-cursor = connection.cursor(buffered = True)
-cursor.execute("SELECT id, feedurl, title FROM feeds")
 
-for row in cursor:
-    print(row[1])
-    processrss(row[1], row[2], row[0])
+if __name__ == "__main__":
+
+    # Get feeds from the database and process them
+    cursor = connection.cursor(buffered = True)
+    cursor.execute("SELECT id, feedurl, title FROM feeds")
+    for row in cursor:
+        print(row[1])
+        processrss(row[1], row[2], row[0])
 
 
-# Get the feeds to cleanup old feeditems
-cursor = connection.cursor(buffered = True)
-cursor.execute("SELECT id, feeditemcount FROM feeds")
+    # Get the feeds to cleanup old feeditems
+    cursor = connection.cursor(buffered = True)
+    cursor.execute("SELECT id, feeditemcount FROM feeds")
 
-for row in cursor:
-    print(row[1])
-    cleanupfeeditems(row[0], row[1])
+    for row in cursor:
+        print(row[1])
+        cleanupfeeditems(row[0], row[1])
