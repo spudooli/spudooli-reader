@@ -1,5 +1,6 @@
 
 function getfocus(a, b) {
+    console.log("Im here")
     itemid = arguments[0];
     feedid = arguments[1];
 
@@ -34,4 +35,4 @@ function getfocus(a, b) {
     }));
 };
 
-setInterval("location.reload(true);", 900000);
+setInterval("location.reload(true);", 60000);

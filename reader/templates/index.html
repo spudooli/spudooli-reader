@@ -23,8 +23,7 @@
         <div class="col-sm-9">
             <div class="postitem" style="overflow:hidden">
                 {% for item in newsitems %}
-                <div id="skiddly-{{ item[0] }}" onfocus="getfocus({{ item[0] }},{{ item[7] }})"
-                    onclick="getfocus({{ item[0] }},{{ item[7] }})" tabindex="{{ item[0] }}">
+                <div id="skiddly-{{ item[0] }}" tabindex="{{ item[0] }}">
                     <small>
                         <div style="float:right;">{{item[6].strftime('%A, %-d %B, %Y %-H:%M')}}</div>
                     </small>
@@ -33,7 +32,9 @@
                     {% else %}<h4><a href="{{ item[2]}}">{{ item[1]}}</a></h4>
 
                     {% endif %}
-                    {{item[3] | safe}}
+                    <div onfocus="getfocus({{ item[0] }},{{ item[7] }})" onclick="getfocus({{ item[0] }},{{ item[7] }})">
+                        {{item[3] | safe}}
+                    </div>
                     <hr>
                 </div>
                 {% endfor %}

@@ -3,6 +3,19 @@ from flask import render_template, request, send_from_directory
 from datetime import date
 from reader.auth import login_required
 
+def getunreadcount():
+    cursor = db.mysql.connection.cursor()
+    cursor.execute(
+        "SELECT COUNT(id) id FROM `feed_items` WHERE haveread IS NULL")
+    unreadcount = cursor.fetchone()
+    if unreadcount[0] == 0:
+        unreadcount = " "
+    else:
+        unreadcount = str(unreadcount[0])
+    cursor.close()
+
+    return unreadcount
+
 
 @app.route("/")
 @login_required
@@ -18,7 +31,9 @@ def index():
         "SELECT `feed_title`, COUNT(id) id, feed_id FROM `feed_items` WHERE `haveread` IS NULL GROUP BY `feed_title`, feed_id ")
     unreadcounts = cursor.fetchall()
 
-    return render_template('index.html', newsitems=newsitems, unreadcounts=unreadcounts)
+    unreadcount = getunreadcount()
+
+    return render_template('index.html', newsitems = newsitems, unreadcounts = unreadcounts, unreadcount = unreadcount)
 
 
 @app.route("/read", methods=['POST'])
@@ -36,15 +51,7 @@ def read():
 
 @app.route("/unreadcount")
 def unreadcount():
-    cursor = db.mysql.connection.cursor()
-    cursor.execute(
-        "SELECT COUNT(id) id FROM `feed_items` WHERE haveread IS NULL")
-    unreadcount = cursor.fetchone()
-    if unreadcount[0] == 0:
-        unreadcount = " "
-    else:
-        unreadcount = str(unreadcount[0])
-    cursor.close()
+    unreadcount = getunreadcount()
 
     return unreadcount
 
