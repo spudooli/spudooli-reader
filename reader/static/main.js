@@ -34,4 +34,4 @@ function getfocus(a, b) {
     }));
 };
 
-setTimeout("location.reload(true);", 900000);
+setInterval("location.reload(true);", 900000);

@@ -19,6 +19,9 @@ connection = mysql.connector.connect(
 
 
 def processrss(url, feed_title, feedid):
+    """
+    Download the rss feed, break it up and stuff it into the database
+    """
     try:
         feed = feedparser.parse(url)
         cursor = connection.cursor(buffered = True)
@@ -56,9 +59,13 @@ def processrss(url, feed_title, feedid):
         return
 
 def cleanupfeeditems(feedid, feedItemCount):
-    cursor = db.mysql.connection.cursor()
-    cursor.execute("DELETE FROM feeditems WHERE id NOT IN(SELECT id, feedid FROM feeditems where feedid = %s ORDER BY id DESC LIMIT %s)) foo"), (feedid, feedItemCount)
-    db.mysql.connection.commit()
+    """
+    Cleans up feed_items, removing any items older than what the RSS feed provides
+    """
+    cursor = connection.cursor(buffered = True)
+    deletefrom = "DELETE FROM feed_items WHERE feed_id = %s and id NOT IN (select id from (SELECT id, feed_id FROM feed_items where feed_id = %s ORDER BY id DESC LIMIT %s) foo)"
+    cursor.execute(deletefrom, (feedid, feedid, feedItemCount))
+    connection.commit()
     cursor.close()
 
 
@@ -72,9 +79,9 @@ if __name__ == "__main__":
         processrss(row[1], row[2], row[0])
 
 
-    # Get the feeds to cleanup old feeditems
+    #Get the feeds to cleanup old feeditems
     cursor = connection.cursor(buffered = True)
-    cursor.execute("SELECT id, feeditemcount FROM feeds")
+    cursor.execute("SELECT id, feed_item_count FROM feeds")
 
     for row in cursor:
         print(row[1])
