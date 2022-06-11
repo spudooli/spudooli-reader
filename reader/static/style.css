@@ -55,3 +55,7 @@ text-decoration: underline;
     margin-bottom: 20px;
     }
 
+.star {
+  float:right;
+  margin-right: 10px;
+}

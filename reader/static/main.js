@@ -35,4 +35,18 @@ function getfocus(a, b) {
     }));
 };
 
-setInterval("location.reload(true);", 60000);
+function setstar(a) {
+    itemid = arguments[0];
+
+    document.getElementById("star").setAttribute('name', 'star');
+    // Mark the post as Stared
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", "/star", true);
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.send(JSON.stringify({
+        feed: itemid
+    }));
+};
+
+
+setInterval("location.reload(true);", 900000);
