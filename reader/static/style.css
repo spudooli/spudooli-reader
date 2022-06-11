@@ -39,12 +39,12 @@ text-decoration: underline;
 
   }
 
-  .counter-box div.counter-number {
-    font-size: 40px;
-    line-height: 60px;
-    color: rgb(0, 0, 0);
-    display: block;
-    letter-spacing: 2px;
+.counter-box div.counter-number {
+  font-size: 40px;
+  line-height: 60px;
+  color: rgb(0, 0, 0);
+  display: block;
+  letter-spacing: 2px;
   }
 
   #a500 {
@@ -58,4 +58,8 @@ text-decoration: underline;
 .star {
   float:right;
   margin-right: 10px;
+}
+
+.leftnavstuff {
+  margin-top: 180px;
 }

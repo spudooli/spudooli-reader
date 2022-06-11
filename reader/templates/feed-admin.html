@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h2>{% block title %}{% endblock %}</h2>
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-sm-3">
+      
+        </div>
+
+        <div class="col-sm-9">
+            <div class="postitem" style="overflow:hidden">
+              <h3>Add a new item</h3>
+        <form method="post">
+            <div class="mb-3"></div>
+              <label for="feedurl" class="form-label">Feed URL</label>
+              <input name="feedurl" class="form-control" id="feedurl" required><br>
+          </div>
+          <div class="mb-3">
+            <label for="feedtitle" class="form-label">Feed Title</label>
+            <input name="feedtitle"  class="form-control"id="feedtitle" required><br>
+          </div>
+          <div class="mb-3">
+            <label for="websiteurl" class="form-label">Website URL</label>
+            <input name="websiteurl"  class="form-control"id="websiteurl" required><br>
+            <input type="submit" value="Submit">
+          </div>
+      </form>
+
+        <div class="col-sm-9">
+            <div class="postitem" style="overflow:hidden">
+                <h3>Feed Admin</h3>
+
+                {% for item in feedlist %}
+                {{ item[1]}}<br>
+                {% endfor %}
+                
+                </div>
+                    {% endblock %}
+
+
+
+
+
+        </div>
+    </div>
+</div>

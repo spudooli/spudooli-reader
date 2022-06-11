@@ -1,5 +1,5 @@
 from reader import app, db
-from flask import render_template, request, send_from_directory
+from flask import render_template, request, send_from_directory, redirect, url_for
 from datetime import date
 from reader.auth import login_required
 
@@ -44,14 +44,6 @@ def stars():
     cursor.execute("SELECT `id`, `title`, `url`, `content`, `haveread`, `feed_title`, `date_published`, feed_id, star FROM `feed_items` WHERE `star` = '1' ORDER BY `date_published` ASC",)
     newsitems = cursor.fetchall()
     cursor.close()
-
-    # Get a count of the items that have not been read grouped by feed title
-    cursor = db.mysql.connection.cursor()
-    cursor.execute(
-        "SELECT `feed_title`, COUNT(id) id, feed_id FROM `feed_items` WHERE `haveread` IS NULL GROUP BY `feed_title`, feed_id ")
-    unreadcounts = cursor.fetchall()
-
-    unreadcount = getunreadcount()
 
     return render_template('index.html', newsitems=newsitems)
 
@@ -100,6 +92,28 @@ def readinglist():
 
     return render_template('readinglist.html', readinglist=readinglist)
 
+@app.route("/feed-admin", methods=['GET', 'POST'])
+@login_required
+def feedadmin():
+    if request.method == 'POST':
+        feedurl = request.form['feedurl']
+        feedtitle = request.form['feedtitle']
+        websiteurl = request.form['websiteurl']
+        cursor = db.mysql.connection.cursor()
+        cursor.execute(
+            "INSERT INTO `feeds` (`title`, `feedurl`, websiteurl) VALUES (%s, %s, %s)", (feedtitle, feedurl, websiteurl))
+        db.mysql.connection.commit()
+        cursor.close()
+
+        return redirect(url_for('feedadmin'))
+
+    cursor = db.mysql.connection.cursor()
+    cursor.execute(
+        "SELECT `id`, `title`, `websiteurl` FROM `feeds`ORDER BY `id` ASC",)
+    feedlist = cursor.fetchall()
+    cursor.close()
+
+    return render_template('feed-admin.html', feedlist=feedlist)
 
 @app.route('/about')
 def about():

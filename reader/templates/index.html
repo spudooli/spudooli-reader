@@ -19,7 +19,12 @@
             </div>
             <hr class="d-sm-none">
             {% endfor %}
+            <div class="leftnavstuff">
+                <a href="{{ url_for('stars') }}">Stars</a><br>
+                <a href="{{ url_for('feedadmin') }}">Feeds Admin</a>
+            </div>
         </div>
+
         <div class="col-sm-9">
             <div class="postitem" style="overflow:hidden">
                 {% for item in newsitems %}
