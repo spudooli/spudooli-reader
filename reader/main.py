@@ -115,6 +115,23 @@ def feedadmin():
 
     return render_template('feed-admin.html', feedlist=feedlist)
 
+
+@app.route("/deletefeed/<int:id>", methods=['POST'])
+@login_required
+def deletefeed(id):
+    if request.method == "POST":
+        cursor = db.mysql.connection.cursor()
+        cursor.execute(
+            "DELETE FROM `feeds` WHERE `id` = %s", (id,))
+        db.mysql.connection.commit()
+        cursor.execute(
+            "DELETE FROM `feed_items` WHERE `feed_id` = %s", (id,))
+        db.mysql.connection.commit()
+        cursor.close()
+
+        return redirect(url_for('feedadmin'))
+
+
 @app.route('/about')
 def about():
     return render_template('about.html')

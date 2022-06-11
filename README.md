@@ -16,7 +16,7 @@ pip3 install flask_mysqldb
 
 There is a mysql dump in the bin directory to create your database that matches mine.
 
-Add your feeds to the feeds table - I have no admin for that yet, possibly ever. I just use adminer for now.
+There is a feeds admin to add new feeds.
 
 Add a crontab entry to run update-feeds.py at an interval that suits you
 
