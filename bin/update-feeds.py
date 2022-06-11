@@ -65,7 +65,7 @@ def cleanupfeeditems(feedid, feedItemCount):
     #multiply the feeditem count to give some overhead, just in case
     feedItemCount = feedItemCount * 2
     cursor = connection.cursor(buffered = True)
-    deletefrom = "DELETE FROM feed_items WHERE feed_id = %s and id NOT IN (select id from (SELECT id, feed_id FROM feed_items where feed_id = %s ORDER BY id DESC LIMIT %s) foo)"
+    deletefrom = "DELETE FROM feed_items WHERE feed_id = %s and id NOT IN (select id from (SELECT id, feed_id FROM feed_items where feed_id = %s and star is NULL ORDER BY id DESC LIMIT %s) foo)"
     cursor.execute(deletefrom, (feedid, feedid, feedItemCount))
     connection.commit()
     cursor.close()
