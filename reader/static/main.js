@@ -39,7 +39,7 @@ function setstar(a) {
     itemid = arguments[0];
 
     document.getElementById("star").setAttribute('name', 'star');
-    // Mark the post as Stared
+    // Mark the post as Starred
     var xhr = new XMLHttpRequest();
     xhr.open("POST", "/star", true);
     xhr.setRequestHeader('Content-Type', 'application/json');
