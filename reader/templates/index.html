@@ -38,7 +38,7 @@
 
                     {% endif %}
                     <div onclick="getfocus({{ item[0] }},{{ item[7] }})">
-                        {{item[3] | safe}}
+                        {{item[3] | replace("<hr>", "") safe}}
                     </div>
                     <hr>
                 </div>

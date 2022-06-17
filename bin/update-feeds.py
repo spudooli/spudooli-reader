@@ -63,7 +63,7 @@ def cleanupfeeditems(feedid, feedItemCount):
     Cleans up feed_items, removing any items older than what the RSS feed provides
     """
     #multiply the feeditem count to give some overhead, just in case
-    feedItemCount = feedItemCount * 2
+    feedItemCount = int(feedItemCount) * 3
     cursor = connection.cursor(buffered = True)
     deletefrom = "DELETE FROM feed_items WHERE feed_id = %s and id NOT IN (select id from (SELECT id, feed_id FROM feed_items where feed_id = %s and star is NULL ORDER BY id DESC LIMIT %s) foo)"
     cursor.execute(deletefrom, (feedid, feedid, feedItemCount))
