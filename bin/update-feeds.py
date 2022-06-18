@@ -5,7 +5,7 @@ import ssl
 from datetime import datetime
 from time import strftime
 
-feedparser.USER_AGENT = "Spudooli Reader/1.0 - 1 subscribers - https://www.spudooli.com"
+feedparser.USER_AGENT = "Spudooli Reader/1.0 - 1 subscribers - https://reader.spudooli.com/about"
 
 if hasattr(ssl, '_create_unverified_context'):
     ssl._create_default_https_context = ssl._create_unverified_context

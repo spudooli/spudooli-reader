@@ -49,4 +49,4 @@ function setstar(a) {
 };
 
 
-setInterval("location.reload(true);", 900000);
+setInterval("location.reload(true);", 300000);
