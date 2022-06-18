@@ -32,7 +32,7 @@
                     <small>
                         <div style="float:right;">{{item[6].strftime('%A, %-d %B, %Y %-H:%M')}} </div>
                     </small>
-                    <h6><img src="/static/icons/{{ item[7] }}.gif" width="16" height="16">
+                    <h6 class="faviconimg"><img src="/static/icons/{{ item[7] }}.gif" width="16" height="16" style="margin-right: 10px;">
                        {{item[5]}} </h6>
                     {% if item[1] == None %}<h3></h3>
                     {% else %}<h4><div class="star" onclick="setstar({{ item[0] }})">{% if item[8] == None %}<ion-icon id="star" name="star-outline"></ion-icon>{% else %} <ion-icon id="star" name="star"></ion-icon>{% endif %} </div> <a href="{{ item[2]}}">{{ item[1]}}</a></h4>

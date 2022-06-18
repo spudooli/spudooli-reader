@@ -81,3 +81,8 @@ text-decoration: underline;
   padding: 0;
   text-decoration-color: rgb(12, 12, 211);
 }
+
+.faviconimg {
+  display: flex;
+  align-items: center;
+}

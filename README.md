@@ -23,6 +23,12 @@ pip3 install feedparser
 pip3 install mysql-connector-python
 pip3 install flask_mysqldb
 ```
+If you want to try the favicon downloader, that mostly works, you'll need to install the following:
+```
+pip3 install favicon
+pip3 install requests
+pip3 install beautifulsoup4
+```
 
 There is a mysql dump in the bin directory to create your database that matches mine.
 
