@@ -38,7 +38,7 @@ function getfocus(a, b) {
 function setstar(a) {
     itemid = arguments[0];
 
-    document.getElementById("star").setAttribute('name', 'star');
+    document.getElementById("star-" + itemid).setAttribute('name', 'star');
     // Mark the post as Starred
     var xhr = new XMLHttpRequest();
     xhr.open("POST", "/star", true);

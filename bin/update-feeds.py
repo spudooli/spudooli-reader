@@ -44,7 +44,6 @@ def processrss(url, feed_title, feedid):
 
             connection.commit()
 
-
         # Update the feed's last updated date
         dateUpdated = datetime.now()
         mysql_insert_query = "update feeds set last_checked = %s, feed_item_count = %s where id = %s"
@@ -63,7 +62,7 @@ def cleanupfeeditems(feedid, feedItemCount):
     Cleans up feed_items, removing any items older than what the RSS feed provides
     """
     #multiply the feeditem count to give some overhead, just in case
-    feedItemCount = int(feedItemCount) * 3
+    feedItemCount = int(feedItemCount) * 5
     cursor = connection.cursor(buffered = True)
     deletefrom = "DELETE FROM feed_items WHERE feed_id = %s and id NOT IN (select id from (SELECT id, feed_id FROM feed_items where feed_id = %s and star is NULL ORDER BY id DESC LIMIT %s) foo)"
     cursor.execute(deletefrom, (feedid, feedid, feedItemCount))
@@ -84,7 +83,6 @@ if __name__ == "__main__":
     #Get the feeds to cleanup old feeditems
     cursor = connection.cursor(buffered = True)
     cursor.execute("SELECT id, feed_item_count FROM feeds")
-
     for row in cursor:
         print(row[1])
         cleanupfeeditems(row[0], row[1])
