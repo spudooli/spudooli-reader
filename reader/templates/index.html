@@ -28,7 +28,7 @@
         <div class="col-sm-9">
             <div class="postitem" style="overflow:hidden">
                 {% for item in newsitems %}
-                <div id="skiddly-{{ item[0] }}" tabindex="{{ item[0] }}">
+                <div id="skiddly-{{ item[0] }}" tabindex="{{ item[0] }}" class="itembody">
                     <small>
                         <div style="float:right;">{{item[6].strftime('%A, %-d %B, %Y %-H:%M')}} </div>
                     </small>
@@ -45,7 +45,7 @@
                     <div onclick="getfocus({{ item[0] }},{{ item[7] }})">
                         {{item[3] | replace("<hr>", "") | safe}}
                     </div>
-                    <hr>
+                    <hr class="makesomeroom">
                 </div>
                 {% endfor %}
 
