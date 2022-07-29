@@ -2,7 +2,7 @@
 An RSS feed reader made by me, just for me. But it can be for you too, if you want.
 
 **Features**
-- A resonably capable RSS feed parser - It even handles the inventor of RSS, Dave Winer's feed, although doesn't handles dates or timezones well as I ran out of skills
+- A reasonably capable RSS feed parser - It even handles the inventor of RSS, Dave Winer's feed, although doesn't handles dates or timezones well as I ran out of skills
 - A simple, easy to use, and easy to understand interface
 - Star a feed item for later appreciation
 - An about page and a reading list page to show everyone the scope of your intersts
