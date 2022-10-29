@@ -4,6 +4,9 @@ import feedparser
 import ssl
 from datetime import datetime
 from time import strftime
+import logging
+
+logging.basicConfig(filename='/tmp/update-feeds.log', encoding='utf-8', level=logging.DEBUG)
 
 feedparser.USER_AGENT = "Spudooli Reader/1.0 - 1 subscribers - https://reader.spudooli.com/about"
 
@@ -63,6 +66,7 @@ def cleanupfeeditems(feedid, feedItemCount):
     """
     #multiply the feeditem count to give some overhead, just in case
     feedItemCount = int(feedItemCount) * 5
+    logging.debug(f"feedid - {feedid},  feeditemcount - {feedItemCount}")
     cursor = connection.cursor(buffered = True)
     deletefrom = "DELETE FROM feed_items WHERE feed_id = %s and id NOT IN (select id from (SELECT id, feed_id FROM feed_items where feed_id = %s and star is NULL ORDER BY id DESC LIMIT %s) foo)"
     cursor.execute(deletefrom, (feedid, feedid, feedItemCount))
@@ -85,4 +89,6 @@ if __name__ == "__main__":
     cursor.execute("SELECT id, feed_item_count FROM feeds")
     for row in cursor:
         print(row[1])
-        cleanupfeeditems(row[0], row[1])
+        logging.debug(row)
+        if int(row[1]) > 0:
+            cleanupfeeditems(row[0], row[1])
