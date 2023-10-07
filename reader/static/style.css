@@ -1,3 +1,17 @@
+@font-face {
+  font-family: fixeltext;
+  src: url(/static/fixeltext-regular.woff2);
+}
+@font-face {
+  font-family: fixeltext;
+  src: url(/static/fixeltext-bold.woff2);
+  font-weight: bold;
+}
+
+div {
+  font-family: fixeltext;
+}
+
 .postitem img {
     max-width:100%;
     object-fit: cover;
@@ -16,12 +30,18 @@ text-decoration: underline;
 {
     text-align:left;
 }
+
+h1 {
+  font-weight: bold;
+  }
+
 .feedname
 {
     display:inline;
     text-align:left;
     width: 80%;
 }
+
 .feedunreadcount
 {
     display:inline;
