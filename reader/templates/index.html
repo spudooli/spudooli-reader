@@ -36,7 +36,7 @@
                     </small>
                     <h6 class="faviconimg"><img src="/static/icons/{{ item[7] }}.gif" width="16" height="16" style="margin-right: 10px;">
                        {{item[5]}} </h6>
-                    {% if item[1] == None %}<h3></h3>
+                    {% if item[1] == None %}<h4><a href="{{ item[2]}}">{{ item[0]}}</a></h4></h3>
                     {% else %}
                     <h4><div class="star" onclick="setstar({{ item[0] }})">
                         {% if item[8] == None %}<ion-icon id="star-{{ item[0] }}" name="star-outline"></ion-icon>
@@ -45,7 +45,11 @@
 
                     {% endif %}
                     <div onclick="getfocus({{ item[0] }},{{ item[7] }})">
-                        {{item[3] | replace("<hr>", "") | safe}}
+                        {% if "bsky" in item[2] %}
+                            {{item[3] | urlize | replace("<hr>", "") | safe}}
+                        {% else %}
+                            {{item[3] | replace("<hr>", "") | safe}}
+                        {% endif %}
                     </div>
                     <hr class="makesomeroom">
                 </div>
