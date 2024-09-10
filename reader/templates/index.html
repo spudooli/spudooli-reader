@@ -32,7 +32,7 @@
                 {% for item in newsitems %}
                 <div id="skiddly-{{ item[0] }}" tabindex="{{ item[0] }}" class="itembody">
                     <small>
-                        <div style="float:right;">{{item[6].strftime('%A, %-d %B, %Y %-H:%M')}} </div>
+                        <div onclick="getfocus({{ item[0] }},{{ item[7] }})" style="float:right;">{{item[6].strftime('%A, %-d %B, %Y %-H:%M')}} </div>
                     </small>
                     <h6 class="faviconimg"><img src="/static/icons/{{ item[7] }}.gif" width="16" height="16" style="margin-right: 10px;">
                        {{item[5]}} </h6>
