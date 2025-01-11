@@ -5,6 +5,7 @@ import ssl
 from datetime import datetime
 from time import strftime
 import logging
+import requests
 
 logging.basicConfig(filename='/tmp/update-feeds.log', encoding='utf-8', level=logging.DEBUG)
 
@@ -20,6 +21,18 @@ connection = mysql.connector.connect(
     database="reader",
 )
 
+def get_bluesky_embed_code(bluesky_post_url):
+    # This function fetches the embed code for a Bluesky post
+    # Replace this URL with the actual API endpoint provided by Bluesky
+    api_url = f"https://embed.bsky.app/oembed?url={bluesky_post_url}"
+    
+    response = requests.get(api_url)
+    
+    if response.status_code == 200:
+        embed_code = response.json().get('html')
+        return embed_code
+    else:
+        raise Exception(f"Failed to fetch embed code: {response.status_code}")
 
 def processrss(url, feed_title, feedid):
     """
@@ -38,9 +51,25 @@ def processrss(url, feed_title, feedid):
                 description = entry.get("content")[0]["value"]
             # TODO Fix for my timezone
             published = entry.get("published_parsed")
+            updated = entry.get("updated_parsed")
+            if updated:
+                published = updated
             published = strftime("%Y-%m-%d %H:%M:%S", published)
             dateUpdated = datetime.now()
             print(f'       {title}')
+
+            # if the link includes bluesky url, get the embed code
+            if 'bsky.app' in link:
+                # first check if the post is already in the database so that we don't fetch the embed code again
+                cursor.execute("SELECT id FROM feed_items WHERE url = %s", (link,))
+                if cursor.rowcount > 0:
+                    # skip this item if it's already in the database
+                    continue
+                else:
+                    embed_code = get_bluesky_embed_code(link)
+                    print(f'       {embed_code}')
+                    description = f"{embed_code}"
+
             cursor.execute(
                 "INSERT ignore INTO feed_items (title, url, urlhash, content, feed_title, date_published, date_updated, feed_id) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)",
                 (title, link, urlhash.hexdigest(), description, feed_title, published, dateUpdated, feedid))
@@ -72,6 +101,7 @@ def cleanupfeeditems(feedid, feedItemCount):
     cursor.execute(deletefrom, (feedid, feedid, feedItemCount))
     connection.commit()
     cursor.close()
+
 
 
 if __name__ == "__main__":
