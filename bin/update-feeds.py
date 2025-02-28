@@ -23,7 +23,6 @@ connection = mysql.connector.connect(
 
 def get_bluesky_embed_code(bluesky_post_url):
     # This function fetches the embed code for a Bluesky post
-    # Replace this URL with the actual API endpoint provided by Bluesky
     api_url = f"https://embed.bsky.app/oembed?url={bluesky_post_url}"
     
     response = requests.get(api_url)
@@ -35,9 +34,7 @@ def get_bluesky_embed_code(bluesky_post_url):
         raise Exception(f"Failed to fetch embed code: {response.status_code}")
 
 def processrss(url, feed_title, feedid):
-    """
-    Download the rss feed, break it up and stuff it into the database
-    """
+    # Download the rss feed, break it up and stuff it into the database
     try:
         feed = feedparser.parse(url)
         cursor = connection.cursor(buffered = True)
@@ -67,7 +64,6 @@ def processrss(url, feed_title, feedid):
                     continue
                 else:
                     embed_code = get_bluesky_embed_code(link)
-                    print(f'       {embed_code}')
                     description = f"{embed_code}"
 
             cursor.execute(
@@ -91,7 +87,7 @@ def processrss(url, feed_title, feedid):
 
 def cleanupfeeditems(feedid, feedItemCount):
     """
-    Cleans up feed_items, removing any items older than what the RSS feed provides
+    # Cleans up feed_items, removing any items older than what the RSS feed provides
     """
     #multiply the feeditem count to give some overhead, just in case
     feedItemCount = int(feedItemCount) * 5
@@ -102,6 +98,12 @@ def cleanupfeeditems(feedid, feedItemCount):
     connection.commit()
     cursor.close()
 
+
+def deleteboingboingads();
+    cursor = connection.cursor(buffered = True)
+    cursor.execute("DELETE FROM where feed_id = '86' and content like '%<strong>TL;DR:&#160;</strong>%'")
+    connection.commit()
+    cursor.close()
 
 
 if __name__ == "__main__":
@@ -122,3 +124,8 @@ if __name__ == "__main__":
         logging.debug(row)
         if int(row[1]) > 0:
             cleanupfeeditems(row[0], row[1])
+    
+    # Delete Boing Boing ads
+    deleteboingboingads()
+
+    
