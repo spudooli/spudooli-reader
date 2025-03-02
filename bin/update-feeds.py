@@ -6,6 +6,9 @@ from datetime import datetime
 from time import strftime
 import logging
 import requests
+from pytz import timezone
+import pytz
+from time import mktime
 
 logging.basicConfig(filename='/tmp/update-feeds.log', encoding='utf-8', level=logging.DEBUG)
 
@@ -51,8 +54,10 @@ def processrss(url, feed_title, feedid):
             updated = entry.get("updated_parsed")
             if updated:
                 published = updated
-            published = strftime("%Y-%m-%d %H:%M:%S", published)
-            dateUpdated = datetime.now()
+            nz_timezone = timezone('Pacific/Auckland')
+            published = datetime.fromtimestamp(mktime(published), tz=pytz.utc).astimezone(nz_timezone)
+            published = published.strftime("%Y-%m-%d %H:%M:%S")
+            dateUpdated = datetime.now(nz_timezone)
             print(f'       {title}')
 
             # if the link includes bluesky url, get the embed code
@@ -99,9 +104,9 @@ def cleanupfeeditems(feedid, feedItemCount):
     cursor.close()
 
 
-def deleteboingboingads();
+def deleteboingboingads():
     cursor = connection.cursor(buffered = True)
-    cursor.execute("DELETE FROM where feed_id = '86' and content like '%<strong>TL;DR:&#160;</strong>%'")
+    cursor.execute("UPDATE `feed_items` SET `haveread` = '1' WHERE `feed_id` = '86' and content like '%<strong>TL;DR%'")
     connection.commit()
     cursor.close()
 

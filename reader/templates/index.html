@@ -33,7 +33,7 @@
                     <small>
                         <div onclick="getfocus({{ item[0] }},{{ item[7] }})" style="float:right;">{{item[6].strftime('%A, %-d %B, %Y %-H:%M')}} </div>
                     </small>
-                    <h6 class="faviconimg"><img src="/static/icons/{{ item[7] }}.gif" width="16" height="16" style="margin-right: 10px;"> {{item[5]}} </h6>
+                    <h6 class="faviconimg"><img src="/static/icons/{{ item[7] }}.gif" width="16" height="16" style="margin-right: 10px; margin-bottom: 3px;"> {{item[5]}} </h6>
                     {% if item[1] == None %}
                         <h4><a href="{{ item[2]}}">_</a></h4></h3>
                     {% else %}
