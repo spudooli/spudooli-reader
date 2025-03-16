@@ -2,13 +2,11 @@ import mysql.connector
 import hashlib
 import feedparser
 import ssl
-from datetime import datetime
-from time import strftime
 import logging
 import requests
-from pytz import timezone
-import pytz
+from datetime import datetime, timezone
 from time import mktime
+
 
 logging.basicConfig(filename='/tmp/update-feeds.log', encoding='utf-8', level=logging.DEBUG)
 
@@ -54,10 +52,9 @@ def processrss(url, feed_title, feedid):
             updated = entry.get("updated_parsed")
             if updated:
                 published = updated
-            nz_timezone = timezone('Pacific/Auckland')
-            published = datetime.fromtimestamp(mktime(published), tz=pytz.utc).astimezone(nz_timezone)
+            published = datetime.fromtimestamp(mktime(published), tz=timezone.utc)
             published = published.strftime("%Y-%m-%d %H:%M:%S")
-            dateUpdated = datetime.now(nz_timezone)
+            dateUpdated = datetime.now()
             print(f'       {title}')
 
             # if the link includes bluesky url, get the embed code
@@ -98,8 +95,8 @@ def cleanupfeeditems(feedid, feedItemCount):
     feedItemCount = int(feedItemCount) * 5
     logging.debug(f"feedid - {feedid},  feeditemcount - {feedItemCount}")
     cursor = connection.cursor(buffered = True)
-    deletefrom = "DELETE FROM feed_items WHERE feed_id = %s and id NOT IN (select id from (SELECT id, feed_id FROM feed_items where feed_id = %s and star is NULL ORDER BY id DESC LIMIT %s) foo)"
-    cursor.execute(deletefrom, (feedid, feedid, feedItemCount))
+    deletefrom = "DELETE fi FROM feed_items fi LEFT JOIN (SELECT id FROM feed_items WHERE feed_id = %s AND star IS NULL ORDER BY id DESC LIMIT %s) AS to_keep ON fi.id = to_keep.id WHERE fi.feed_id = %s AND fi.star IS NULL AND to_keep.id IS NULL;"
+    cursor.execute(deletefrom, (feedid, feedItemCount, feedid))
     connection.commit()
     cursor.close()
 

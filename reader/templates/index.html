@@ -31,11 +31,13 @@
                 {% for item in newsitems %}
                 <div id="skiddly-{{ item[0] }}" tabindex="{{ item[0] }}" class="itembody">
                     <small>
-                        <div onclick="getfocus({{ item[0] }},{{ item[7] }})" style="float:right;">{{item[6].strftime('%A, %-d %B, %Y %-H:%M')}} </div>
+                        <div onclick="getfocus({{ item[0] }},{{ item[7] }})" style="float:right;">{{item[6].strftime('%A, %-d %B, %Y %-H:%M %p')}} </div>
                     </small>
                     <h6 class="faviconimg"><img src="/static/icons/{{ item[7] }}.gif" width="16" height="16" style="margin-right: 10px; margin-bottom: 3px;"> {{item[5]}} </h6>
                     {% if item[1] == None %}
-                        <h4><a href="{{ item[2]}}">_</a></h4></h3>
+                        {% if 'bsky' not in item[2] %}
+                            <h4><a href="{{ item[2]}}">_</a></h4></h3>
+                        {% endif %}
                     {% else %}
                     <h4><div class="star" onclick="setstar({{ item[0] }})">
                         {% if item[8] == None %}<ion-icon id="star-{{ item[0] }}" name="star-outline"></ion-icon>
