@@ -2,6 +2,7 @@
   font-family: fixeltext;
   src: url(/static/fixeltext-regular.woff2);
 }
+
 @font-face {
   font-family: fixeltext;
   src: url(/static/fixeltext-bold.woff2);
@@ -13,51 +14,53 @@ div {
 }
 
 .postitem img {
-    max-width:100%;
-    object-fit: cover;
-    height: auto;
+  max-width: 100%;
+  object-fit: cover;
+  height: auto;
 }
 
 a:link {
-    text-decoration: none;
-  }
-
-a:hover {
-text-decoration: underline;
+  text-decoration: none;
 }
 
-.feeds_container
-{
-    text-align:left;
+a:hover {
+  text-decoration: underline;
+}
+
+h3 {
+  font-weight: bold;
+  font-size: 12px;
+}
+
+.feeds_container {
+  text-align: left;
 }
 
 h1 {
   font-weight: bold;
-  }
-
-.feedname
-{
-    display:inline;
-    text-align:left;
-    width: 80%;
 }
 
-.feedunreadcount
-{
-    display:inline;
-    text-align:right;
-    width: 20%;
-    margin-left: 30px;
+.feedname {
+  display: inline;
+  text-align: left;
+  width: 80%;
+}
+
+.feedunreadcount {
+  display: inline;
+  text-align: right;
+  width: 20%;
+  margin-left: 30px;
 }
 
 .footer {
-    position: fixed;
-    left: 0;
-    bottom: 0;
-    width: 80%;
-    text-align: right;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 80%;
+  text-align: right;
 
-  }
+}
 
 .counter-box div.counter-number {
   font-size: 40px;
@@ -65,18 +68,18 @@ h1 {
   color: rgb(0, 0, 0);
   display: block;
   letter-spacing: 2px;
-  }
+}
 
-  #a500 {
-    padding: 5px;
-    background: #fff;
-    font-size: 200px;
-    text-align: left;
-    margin-bottom: 20px;
-    }
+#a500 {
+  padding: 5px;
+  background: #fff;
+  font-size: 200px;
+  text-align: left;
+  margin-bottom: 20px;
+}
 
 .star {
-  float:right;
+  float: right;
   margin-right: 10px;
 }
 
@@ -91,13 +94,13 @@ h1 {
   text-align: left;
 }
 
-.mydiv:hover { 
-  background-color:rgb(225, 221, 221);
+.mydiv:hover {
+  background-color: rgb(225, 221, 221);
 }
 
 .danger {
-  border: none; 
-  background: none; 
+  border: none;
+  background: none;
   padding: 0;
   text-decoration-color: rgb(12, 12, 211);
 }
@@ -132,5 +135,5 @@ blockquote {
 
 #top-bar {
   height: 3px;
-  background-color: #167e3a; 
+  background-color: #167e3a;
 }

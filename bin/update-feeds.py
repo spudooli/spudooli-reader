@@ -6,6 +6,7 @@ import logging
 import requests
 from datetime import datetime, timezone
 from time import mktime
+from zoneinfo import ZoneInfo
 
 
 logging.basicConfig(filename='/tmp/update-feeds.log', encoding='utf-8', level=logging.DEBUG)
@@ -25,9 +26,7 @@ connection = mysql.connector.connect(
 def get_bluesky_embed_code(bluesky_post_url):
     # This function fetches the embed code for a Bluesky post
     api_url = f"https://embed.bsky.app/oembed?url={bluesky_post_url}"
-    
     response = requests.get(api_url)
-    
     if response.status_code == 200:
         embed_code = response.json().get('html')
         return embed_code
@@ -35,7 +34,6 @@ def get_bluesky_embed_code(bluesky_post_url):
         raise Exception(f"Failed to fetch embed code: {response.status_code}")
 
 def processrss(url, feed_title, feedid):
-    # Download the rss feed, break it up and stuff it into the database
     try:
         feed = feedparser.parse(url)
         cursor = connection.cursor(buffered = True)
@@ -47,13 +45,14 @@ def processrss(url, feed_title, feedid):
             description = entry.get("description")
             if entry.get("content"):
                 description = entry.get("content")[0]["value"]
-            # TODO Fix for my timezone
             published = entry.get("published_parsed")
             updated = entry.get("updated_parsed")
             if updated:
                 published = updated
-            published = datetime.fromtimestamp(mktime(published), tz=timezone.utc)
-            published = published.strftime("%Y-%m-%d %H:%M:%S")
+            dt_utc = datetime.fromtimestamp(mktime(published), tz=timezone.utc)
+            nz = ZoneInfo("Pacific/Auckland")
+            published = dt_utc.astimezone(nz).strftime("%Y-%m-%d %H:%M:%S")
+      
             dateUpdated = datetime.now()
             print(f'       {title}')
 
@@ -67,11 +66,9 @@ def processrss(url, feed_title, feedid):
                 else:
                     embed_code = get_bluesky_embed_code(link)
                     description = f"{embed_code}"
-
             cursor.execute(
                 "INSERT ignore INTO feed_items (title, url, urlhash, content, feed_title, date_published, date_updated, feed_id) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)",
                 (title, link, urlhash.hexdigest(), description, feed_title, published, dateUpdated, feedid))
-
             connection.commit()
 
         # Update the feed's last updated date
@@ -91,7 +88,7 @@ def cleanupfeeditems(feedid, feedItemCount):
     """
     # Cleans up feed_items, removing any items older than what the RSS feed provides
     """
-    #multiply the feeditem count to give some overhead, just in case
+    # multiply the feeditem count to give some overhead, just in case
     feedItemCount = int(feedItemCount) * 5
     logging.debug(f"feedid - {feedid},  feeditemcount - {feedItemCount}")
     cursor = connection.cursor(buffered = True)
@@ -109,14 +106,12 @@ def deleteboingboingads():
 
 
 if __name__ == "__main__":
-
     # Get feeds from the database and process them
     cursor = connection.cursor(buffered = True)
-    cursor.execute("SELECT id, feedurl, title FROM feeds")
+    cursor.execute("SELECT id, feedurl, title FROM feeds where blue_processor IS NULL")
     for row in cursor:
         print(row[1])
         processrss(row[1], row[2], row[0])
-
 
     #Get the feeds to cleanup old feeditems
     cursor = connection.cursor(buffered = True)
