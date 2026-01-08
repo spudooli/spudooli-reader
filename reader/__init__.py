@@ -8,6 +8,9 @@ app = Flask(__name__)
 from . import auth
 app.register_blueprint(auth.bp)
 
+from flask_wtf.csrf import CSRFProtect
+csrf = CSRFProtect(app)
+
 app.config.from_pyfile('config.py')
 
 @app.context_processor

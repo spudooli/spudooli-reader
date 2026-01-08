@@ -29,6 +29,8 @@ function getfocus(a, b) {
     // Mark the post as read
     var xhr = new XMLHttpRequest();
     xhr.open("POST", "/read", true);
+    var csrf_token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+    xhr.setRequestHeader("X-CSRFToken", csrf_token);
     xhr.setRequestHeader('Content-Type', 'application/json');
     xhr.send(JSON.stringify({
         feed: itemid
@@ -42,6 +44,8 @@ function setstar(a) {
     // Mark the post as Starred
     var xhr = new XMLHttpRequest();
     xhr.open("POST", "/star", true);
+    var csrf_token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+    xhr.setRequestHeader("X-CSRFToken", csrf_token);
     xhr.setRequestHeader('Content-Type', 'application/json');
     xhr.send(JSON.stringify({
         feed: itemid

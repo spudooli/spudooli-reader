@@ -49,6 +49,7 @@ def stars():
 
 
 @app.route("/read", methods=['POST'])
+@login_required
 def read():
     request_data = request.get_json()
     itemid = request_data['feed']
@@ -62,6 +63,7 @@ def read():
 
 
 @app.route("/star", methods=['POST'])
+@login_required
 def star():
     # TODO Remove star from the item if already starred
     request_data = request.get_json()
@@ -76,6 +78,7 @@ def star():
 
 
 @app.route("/unreadcount")
+@login_required
 def unreadcount():
     unreadcount = getunreadcount()
 

@@ -15,6 +15,7 @@
       <div class="postitem" style="overflow:hidden">
         <h3>Add a new item</h3>
         <form method="post">
+          <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
           <div class="mb-3"></div>
           <label for="feedurl" class="form-label">Feed URL</label>
           <input name="feedurl" class="form-control" id="feedurl" required><br>
@@ -39,6 +40,7 @@
             <div class="row justify-content-start mydiv">
               <div class="col-4">
                 <form action="{{ url_for('deletefeed', id=item[0]) }}" method="post">
+                  <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
                   <input class="danger" type="submit" value="Delete">
                 </form>
               </div>
