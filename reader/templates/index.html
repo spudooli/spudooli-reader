@@ -14,7 +14,7 @@
 
             {% for item in unreadcounts %}
             <div class="feeds_container">
-                <div class="feedname"id="feedname-{{ item[2] }}">{{ item[0]|truncate(22) }}</div>
+                <div class="feedname" id="feedname-{{ item[2] }}">{{ item[0]|truncate(22) }}</div>
                 <div class="feedunreadcount" id="{{ item[2] }}"><strong>{{ item[1] }}</strong></div>
             </div>
             <hr class="d-sm-none">
@@ -22,7 +22,10 @@
             <div class="leftnavstuff">
                 <a href="{{ url_for('stars') }}">Stars</a><br>
                 <a href="{{ url_for('feedadmin') }}">Feeds Admin</a>
-                <div class="left-footer"><p>© Copyright {{ now.year }} <br><a href="http://www.spudooli.com" target="_blank">Spudooli Investments Ltd</a></p></div>
+                <div class="left-footer">
+                    <p>© Copyright {{ now.year }} <br><a href="http://www.spudooli.com" target="_blank">Spudooli
+                            Investments Ltd</a></p>
+                </div>
             </div>
         </div>
 
@@ -31,23 +34,29 @@
                 {% for item in newsitems %}
                 <div id="skiddly-{{ item[0] }}" tabindex="{{ item[0] }}" class="itembody">
                     <small>
-                        <div onclick="getfocus({{ item[0] }},{{ item[7] }})" style="float:right;">{{item[6].strftime('%A, %-d %B, %Y %-H:%M %p')}} </div>
+                        <div onclick="getfocus({{ item[0] }},{{ item[7] }})" style="float:right;">
+                            {{item[6].strftime('%A, %-d %B, %Y %-H:%M %p')}} </div>
                     </small>
-                    <h6 class="faviconimg"><img src="/static/icons/{{ item[7] }}.gif" width="16" height="16" style="margin-right: 10px; margin-bottom: 3px;"> {{item[5]}} </h6>
+                    <h6 class="faviconimg"><img src="/static/icons/{{ item[7] }}.gif" width="16" height="16"
+                            style="margin-right: 10px; margin-bottom: 3px;"> {{item[5]}} </h6>
                     {% if item[1] == None %}
-                        {% if 'bsky' not in item[2] %}
-                            <h4><a href="{{ item[2]}}">_</a></h4></h3>
-                        {% endif %}
+                    {% if 'bsky' not in item[2] %}
+                    <h4><a href="{{ item[2]}}">_</a></h4>
+                    </h3>
+                    {% endif %}
                     {% else %}
-                    <h4><div class="star" onclick="setstar({{ item[0] }})">
-                        {% if item[8] == None %}<ion-icon id="star-{{ item[0] }}" name="star-outline"></ion-icon>
-                        {% else %} <ion-icon id="star-{{ item[0] }}" name="star"></ion-icon>
-                        {% endif %} </div> <a href="{{ item[2]}}">{{ item[1]|safe}}</a></h4>
+                    <h4>
+                        <div class="star" onclick="setstar({{ item[0] }})">
+                            {% if item[8] == None %}<ion-icon id="star-{{ item[0] }}" name="star-outline"></ion-icon>
+                            {% else %} <ion-icon id="star-{{ item[0] }}" name="star"></ion-icon>
+                            {% endif %} </div> <a href="{{ item[2]}}">{{ item[1]|safe}}</a>
+                    </h4>
                     {% endif %}
                     <div onclick="getfocus({{ item[0] }},{{ item[7] }})">
-                       
-                            {{item[3] | replace("<hr>", "") | safe}}
-   
+
+                        {{item[3] | replace("
+                        <hr>", "") | safe}}
+
                     </div>
                     <hr class="makesomeroom">
                 </div>
@@ -77,9 +86,6 @@
             </script>
 
             {% endblock %}
-
-
-
 
 
         </div>

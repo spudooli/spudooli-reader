@@ -123,11 +123,11 @@ h1 {
 blockquote {
   margin-left: 40px;
   margin-right: 40px;
-  margin-top: 40px;
-  margin-bottom: 40px;
+  margin-top: 20px;
+  margin-bottom: 20px;
   font-size: 16px;
   font-style: italic;
-  color: rgb(0, 0, 0);
+  color: rgb(67, 64, 64);
   border-left: 1px solid rgb(0, 0, 0);
   padding-left: 20px;
 }
