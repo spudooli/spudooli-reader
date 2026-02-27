@@ -4,9 +4,8 @@ import feedparser
 import ssl
 import logging
 import requests
-from datetime import datetime, timezone
-from time import mktime
-from zoneinfo import ZoneInfo
+from datetime import datetime
+import pytz
 
 
 logging.basicConfig(filename='/tmp/update-feeds.log', encoding='utf-8', level=logging.DEBUG)
@@ -45,17 +44,21 @@ def processrss(url, feed_title, feedid):
             description = entry.get("description")
             if entry.get("content"):
                 description = entry.get("content")[0]["value"]
-            published = entry.get("published_parsed")
-            updated = entry.get("updated_parsed")
-            if updated:
-                published = updated
-            dt_utc = datetime.fromtimestamp(mktime(published), tz=timezone.utc)
-            nz = ZoneInfo("Pacific/Auckland")
-            published = dt_utc.astimezone(nz).strftime("%Y-%m-%d %H:%M:%S")
-      
+            published_parsed = entry.get("published_parsed")
+            updated_parsed = entry.get("updated_parsed")
+            if updated_parsed:
+                published_parsed = updated_parsed
+
+            if published_parsed:
+                dt_utc = datetime(*published_parsed[:6], tzinfo=pytz.utc)
+                nz_tz = pytz.timezone('Pacific/Auckland')
+                dt_nz = dt_utc.astimezone(nz_tz)
+                published = dt_nz.strftime("%Y-%m-%d %H:%M:%S")
+            else:
+                 nz_tz = pytz.timezone('Pacific/Auckland')
+                 published = datetime.now(nz_tz).strftime("%Y-%m-%d %H:%M:%S")
             dateUpdated = datetime.now()
             print(f'       {title}')
-
             # if the link includes bluesky url, get the embed code
             if 'bsky.app' in link:
                 # first check if the post is already in the database so that we don't fetch the embed code again
