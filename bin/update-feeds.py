@@ -1,7 +1,6 @@
 import mysql.connector
 import hashlib
 import feedparser
-import ssl
 import logging
 import requests
 from datetime import datetime
@@ -12,8 +11,6 @@ logging.basicConfig(filename='/tmp/update-feeds.log', encoding='utf-8', level=lo
 
 feedparser.USER_AGENT = "Spudooli Reader/1.0 - 1 subscribers - https://reader.spudooli.com/about"
 
-if hasattr(ssl, '_create_unverified_context'):
-    ssl._create_default_https_context = ssl._create_unverified_context
 
 connection = mysql.connector.connect(
     host="localhost",
