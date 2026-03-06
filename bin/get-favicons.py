@@ -1,3 +1,9 @@
+#   python3 bin/get-favicons.py 42                                                                                                                            
+                                                                                                                                                            
+#   Or still run it for all feeds with no argument:                                                                                                           
+                                                                                                                                                            
+#   python3 bin/get-favicons.py 
+
 import mysql.connector
 import os
 import requests
@@ -28,9 +34,14 @@ def download(domain,  id):
         pass
 
 if __name__=='__main__':
-    
+    import sys
+
     cursor = connection.cursor(buffered = True)
-    cursor.execute("SELECT id, websiteurl FROM feeds")
+    if len(sys.argv) > 1:
+        feed_id = int(sys.argv[1])
+        cursor.execute("SELECT id, websiteurl FROM feeds WHERE id = %s", (feed_id,))
+    else:
+        cursor.execute("SELECT id, websiteurl FROM feeds")
 
     for row in cursor:
         try:
@@ -40,4 +51,4 @@ if __name__=='__main__':
             print(e)
             print("Error processing feed: --------------------------------------------" + row[1])
             pass
-    cursor.close()  
+    cursor.close()
