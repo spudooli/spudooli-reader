@@ -31,6 +31,7 @@ def index():
     cursor.execute(
         "SELECT `feed_title`, COUNT(id) id, feed_id FROM `feed_items` WHERE `haveread` IS NULL GROUP BY `feed_title`, feed_id ")
     unreadcounts = cursor.fetchall()
+    cursor.close()
 
     unreadcount = getunreadcount()
 

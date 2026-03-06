@@ -8,7 +8,6 @@ bp = Blueprint('auth', __name__, url_prefix='/auth')
 @bp.before_app_request
 def load_logged_in_user():
     user_id = session.get('user_id')
-    cursor = db.mysql.connection.cursor()
 
     if user_id is None:
         g.user = None
@@ -16,6 +15,7 @@ def load_logged_in_user():
         cursor = db.mysql.connection.cursor()
         cursor.execute('SELECT * FROM users WHERE id = %s', (user_id,) )
         g.user = cursor.fetchone()
+        cursor.close()
 
 def login_required(view):
     @functools.wraps(view)
@@ -36,6 +36,7 @@ def login():
         error = None
         cursor.execute('SELECT * FROM users WHERE username = %s', (username,) )
         user = cursor.fetchone()
+        cursor.close()
 
         if user is None:
             error = 'Incorrect username or password.'
