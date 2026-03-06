@@ -18,10 +18,12 @@ connection = mysql.connector.connect(
 
 def download(domain,  id):
     useragent_headers = {'User-Agent': 'Spudooli Reader/1.0 - favicon scraper - https://reader.spudooli.com/about'}
+    session = requests.Session()
+    session.trust_env = False
     icons = favicon.get(domain, headers=useragent_headers)
     icon = icons[0]
 
-    response = requests.get(icon.url, headers=useragent_headers, stream=True)
+    response = session.get(icon.url, headers=useragent_headers, stream=True)
     icon_file = f'{str(id)}.{icon.format}'
     with open('/var/www/reader/reader/static/icons/' + icon_file, 'wb') as image:
         for chunk in response.iter_content(1024):

@@ -25,7 +25,9 @@ connection = mysql.connector.connect(
 def get_bluesky_embed_code(bluesky_post_url):
     # This function fetches the embed code for a Bluesky post
     api_url = f"https://embed.bsky.app/oembed?url={bluesky_post_url}"
-    response = requests.get(api_url)
+    session = requests.Session()
+    session.trust_env = False
+    response = session.get(api_url)
     if response.status_code == 200:
         embed_code = response.json().get('html')
         return embed_code
