@@ -13,6 +13,11 @@ csrf = CSRFProtect(app)
 
 app.config.from_pyfile('config.py')
 
+@app.after_request
+def add_vary_cookie(response):
+    response.vary.add('Cookie')
+    return response
+
 @app.context_processor
 def inject_now():
     return {'now': datetime.now(timezone.utc)}
