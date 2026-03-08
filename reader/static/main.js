@@ -15,10 +15,10 @@ function getfocus(a, b) {
     // Decrement the total unread count and remove the count if 0 and update title tag
     unreadcount = document.getElementById("unreadcount").innerText - 1;
     document.getElementById("unreadcount").innerText = unreadcount
-    $(document).prop('title', document.getElementById("unreadcount").innerText + ' - Spudooli Feed Reader');
+    document.title = document.getElementById("unreadcount").innerText + ' - Spudooli Feed Reader';
     if (document.getElementById("unreadcount").innerText == 0) {
         document.getElementById("unreadcount").style.display = "none";
-        $(document).prop('title', 'Spudooli Feed Reader');
+        document.title = 'Spudooli Feed Reader';
     }
 
     // Hide the post when clicked

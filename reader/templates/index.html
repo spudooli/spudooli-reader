@@ -64,24 +64,20 @@
 
             </div>
 
-            <script src="/static/jquery-3.7.1.min.js" type="text/javascript"></script>
             <script>
                 function unreadcount() {
-                    $.get('unreadcount', function (data) {
-                        $('#unreadcount').text(data);
-                        $(document).prop('title', document.getElementById("unreadcount").innerText + ' Spudooli Feed Reader');
-                    });
+                    fetch('unreadcount')
+                        .then(response => response.text())
+                        .then(data => {
+                            document.getElementById('unreadcount').textContent = data;
+                            document.title = document.getElementById('unreadcount').innerText + ' Spudooli Feed Reader';
+                        });
                 }
 
-                $(document).ready(function () {
-                    setInterval(unreadcount, 60000);
-                });
-
-                function start() {
+                window.onload = function () {
                     unreadcount();
-                }
-
-                window.onload = start;
+                    setInterval(unreadcount, 60000);
+                };
             </script>
 
             {% endblock %}
