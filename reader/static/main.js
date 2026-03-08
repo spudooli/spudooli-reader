@@ -53,4 +53,3 @@ function setstar(a) {
 };
 
 
-setInterval("location.reload(true);", 300000);
