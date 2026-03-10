@@ -87,9 +87,7 @@ def processrss(url, feed_title, feedid):
         return
 
 def cleanupfeeditems(feedid, feedItemCount):
-    """
     # Cleans up feed_items, removing any items older than what the RSS feed provides
-    """
     # multiply the feeditem count to give some overhead, just in case
     feedItemCount = int(feedItemCount) * 5
     logging.debug(f"feedid - {feedid},  feeditemcount - {feedItemCount}")

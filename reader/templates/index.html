@@ -111,6 +111,15 @@
                     });
                 }
 
+                function executeScripts(el) {
+                    el.querySelectorAll('script').forEach(oldScript => {
+                        const newScript = document.createElement('script');
+                        [...oldScript.attributes].forEach(attr => newScript.setAttribute(attr.name, attr.value));
+                        newScript.textContent = oldScript.textContent;
+                        document.head.appendChild(newScript);
+                    });
+                }
+
                 function fetchNewPosts() {
                     fetch('/newposts?after=' + maxItemId)
                         .then(r => r.json())
@@ -121,7 +130,9 @@
                                     if (item.id > maxItemId) maxItemId = item.id;
                                     const temp = document.createElement('div');
                                     temp.innerHTML = buildItemHTML(item);
-                                    container.appendChild(temp.firstElementChild);
+                                    const el = temp.firstElementChild;
+                                    container.appendChild(el);
+                                    executeScripts(el);
                                 });
                             }
                             updateSidebar(data.unreadcounts);
