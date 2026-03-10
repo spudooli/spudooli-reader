@@ -65,80 +65,6 @@
             </div>
 
             <script>
-                let maxItemId = Math.max(0, ...[...document.querySelectorAll('.itembody')].map(el => parseInt(el.id.replace('skiddly-', ''))));
-
-                function buildItemHTML(item) {
-                    const starIcon = item.starred
-                        ? `<ion-icon id="star-${item.id}" name="star"></ion-icon>`
-                        : `<ion-icon id="star-${item.id}" name="star-outline"></ion-icon>`;
-
-                    let titleBlock = '';
-                    if (item.title === null) {
-                        if (!item.url.includes('bsky')) {
-                            titleBlock = `<h4><a href="${item.url}">_</a></h4>`;
-                        }
-                    } else {
-                        titleBlock = `<h4><div class="star" onclick="setstar(${item.id})">${starIcon}</div> <a href="${item.url}">${item.title}</a></h4>`;
-                    }
-
-                    return `<div id="skiddly-${item.id}" tabindex="${item.id}" class="itembody">
-                        <small><div onclick="getfocus(${item.id},${item.feed_id})" style="float:right;">${item.date_published}</div></small>
-                        <h6 class="faviconimg"><img src="/static/icons/${item.feed_id}.gif" width="16" height="16" style="margin-right: 10px; margin-bottom: 3px;"> ${item.feed_title}</h6>
-                        ${titleBlock}
-                        <div onclick="getfocus(${item.id},${item.feed_id})">${item.content}</div>
-                        <hr class="makesomeroom">
-                    </div>`;
-                }
-
-                function updateSidebar(unreadcounts) {
-                    unreadcounts.forEach(feed => {
-                        const countEl = document.getElementById(String(feed.feed_id));
-                        const nameEl = document.getElementById('feedname-' + feed.feed_id);
-                        if (countEl) {
-                            countEl.querySelector('strong').textContent = feed.count;
-                            countEl.style.display = '';
-                            if (nameEl) nameEl.style.display = '';
-                        } else {
-                            const leftNav = document.querySelector('.leftnavstuff');
-                            const container = document.createElement('div');
-                            container.className = 'feeds_container';
-                            container.innerHTML = `<div class="feedname" id="feedname-${feed.feed_id}">${feed.feed_title.substring(0, 22)}</div><div class="feedunreadcount" id="${feed.feed_id}"><strong>${feed.count}</strong></div>`;
-                            leftNav.parentNode.insertBefore(container, leftNav);
-                            const hr = document.createElement('hr');
-                            hr.className = 'd-sm-none';
-                            leftNav.parentNode.insertBefore(hr, leftNav);
-                        }
-                    });
-                }
-
-                function executeScripts(el) {
-                    el.querySelectorAll('script').forEach(oldScript => {
-                        const newScript = document.createElement('script');
-                        [...oldScript.attributes].forEach(attr => newScript.setAttribute(attr.name, attr.value));
-                        newScript.textContent = oldScript.textContent;
-                        document.head.appendChild(newScript);
-                    });
-                }
-
-                function fetchNewPosts() {
-                    fetch('/newposts?after=' + maxItemId)
-                        .then(r => r.json())
-                        .then(data => {
-                            if (data.items.length > 0) {
-                                const container = document.querySelector('.postitem');
-                                data.items.forEach(item => {
-                                    if (item.id > maxItemId) maxItemId = item.id;
-                                    const temp = document.createElement('div');
-                                    temp.innerHTML = buildItemHTML(item);
-                                    const el = temp.firstElementChild;
-                                    container.appendChild(el);
-                                    executeScripts(el);
-                                });
-                            }
-                            updateSidebar(data.unreadcounts);
-                        });
-                }
-
                 function unreadcount() {
                     fetch('unreadcount')
                         .then(response => response.text())
@@ -151,7 +77,6 @@
                 window.onload = function () {
                     unreadcount();
                     setInterval(unreadcount, 60000);
-                    setInterval(fetchNewPosts, 600000);
                 };
             </script>
 

@@ -1,5 +1,5 @@
 from reader import app, db
-from flask import render_template, request, send_from_directory, redirect, url_for, jsonify
+from flask import render_template, request, send_from_directory, redirect, url_for
 from datetime import date
 from reader.auth import login_required
 
@@ -84,42 +84,6 @@ def unreadcount():
     unreadcount = getunreadcount()
 
     return unreadcount
-
-
-@app.route("/newposts")
-@login_required
-def newposts():
-    after_id = request.args.get('after', 0, type=int)
-    cursor = db.mysql.connection.cursor()
-    cursor.execute(
-        "SELECT `id`, `title`, `url`, `content`, `haveread`, `feed_title`, `date_published`, feed_id, star "
-        "FROM `feed_items` WHERE `haveread` IS NULL AND `id` > %s ORDER BY `date_published` ASC",
-        (after_id,)
-    )
-    rows = cursor.fetchall()
-    cursor.close()
-
-    items = []
-    for row in rows:
-        items.append({
-            'id': row[0],
-            'title': row[1],
-            'url': row[2],
-            'content': row[3].replace('<hr>', '') if row[3] else '',
-            'feed_title': row[5],
-            'date_published': row[6].strftime('%A, %-d %B, %Y %-H:%M %p'),
-            'feed_id': row[7],
-            'starred': row[8] is not None,
-        })
-
-    cursor = db.mysql.connection.cursor()
-    cursor.execute(
-        "SELECT `feed_title`, COUNT(id) id, feed_id FROM `feed_items` WHERE `haveread` IS NULL GROUP BY `feed_title`, feed_id"
-    )
-    unreadcounts = [{'feed_title': r[0], 'count': r[1], 'feed_id': r[2]} for r in cursor.fetchall()]
-    cursor.close()
-
-    return jsonify({'items': items, 'unreadcounts': unreadcounts})
 
 
 @app.route("/readinglist")
