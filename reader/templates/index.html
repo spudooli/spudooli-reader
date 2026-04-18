@@ -30,6 +30,11 @@
         </div>
 
         <div class="col-sm-9">
+            <div style="text-align:right; min-height: 1.5em;">
+                <span id="undo-read-btn" onclick="undoRead()" style="display:none; cursor:pointer;" title="Undo last read">
+                    <ion-icon name="play-back-outline" style="font-size:1.4em; vertical-align:middle;"></ion-icon>
+                </span>
+            </div>
             <div class="postitem" style="overflow:hidden">
                 {% for item in newsitems %}
                 <div id="skiddly-{{ item[0] }}" tabindex="{{ item[0] }}" class="itembody">

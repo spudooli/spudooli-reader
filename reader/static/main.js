@@ -1,6 +1,7 @@
 
+var lastRead = null;
+
 function getfocus(a, b) {
-    console.log("Im here")
     itemid = arguments[0];
     feedid = arguments[1];
 
@@ -26,6 +27,10 @@ function getfocus(a, b) {
     var x = document.getElementById(ele);
     x.style.display = "none";
 
+    // Remember this read action so it can be undone
+    lastRead = { itemid: itemid, feedid: feedid };
+    document.getElementById("undo-read-btn").style.display = "inline-block";
+
     // Mark the post as read
     var xhr = new XMLHttpRequest();
     xhr.open("POST", "/read", true);
@@ -35,6 +40,30 @@ function getfocus(a, b) {
     xhr.send(JSON.stringify({
         feed: itemid
     }));
+};
+
+function undoRead() {
+    if (!lastRead) return;
+    var itemid = lastRead.itemid;
+    var feedid = lastRead.feedid;
+    lastRead = null;
+
+    document.getElementById("undo-read-btn").style.display = "none";
+
+    // Show the post again
+    document.getElementById("skiddly-" + itemid).style.display = "";
+
+    // Restore feed unread count
+    var feedEl = document.getElementById(feedid);
+    feedEl.style.display = "";
+    document.getElementById("feedname-" + feedid).style.display = "";
+    feedEl.innerText = parseInt(feedEl.innerText || 0) + 1;
+
+    // Restore total unread count
+    var countEl = document.getElementById("unreadcount");
+    countEl.style.display = "";
+    countEl.innerText = parseInt(countEl.innerText || 0) + 1;
+    document.title = countEl.innerText + ' - Spudooli Feed Reader';
 };
 
 function setstar(a) {
