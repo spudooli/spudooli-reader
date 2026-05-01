@@ -7,6 +7,7 @@
   src: url(/static/dm-mono-300-latin-ext.woff2) format('woff2');
   unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
 }
+
 @font-face {
   font-family: 'DM Mono';
   font-style: normal;
@@ -15,6 +16,7 @@
   src: url(/static/dm-mono-300-latin.woff2) format('woff2');
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
+
 @font-face {
   font-family: 'DM Mono';
   font-style: normal;
@@ -23,6 +25,7 @@
   src: url(/static/dm-mono-400-latin-ext.woff2) format('woff2');
   unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
 }
+
 @font-face {
   font-family: 'DM Mono';
   font-style: normal;
@@ -31,6 +34,7 @@
   src: url(/static/dm-mono-400-latin.woff2) format('woff2');
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
+
 @font-face {
   font-family: 'DM Mono';
   font-style: normal;
@@ -39,6 +43,7 @@
   src: url(/static/dm-mono-500-latin-ext.woff2) format('woff2');
   unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
 }
+
 @font-face {
   font-family: 'DM Mono';
   font-style: normal;
@@ -47,6 +52,7 @@
   src: url(/static/dm-mono-500-latin.woff2) format('woff2');
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
+
 @font-face {
   font-family: 'DM Sans';
   font-style: italic;
@@ -55,6 +61,7 @@
   src: url(/static/dm-sans-italic-latin-ext.woff2) format('woff2');
   unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
 }
+
 @font-face {
   font-family: 'DM Sans';
   font-style: italic;
@@ -63,6 +70,7 @@
   src: url(/static/dm-sans-italic-latin.woff2) format('woff2');
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
+
 @font-face {
   font-family: 'DM Sans';
   font-style: normal;
@@ -71,6 +79,7 @@
   src: url(/static/dm-sans-normal-latin-ext.woff2) format('woff2');
   unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
 }
+
 @font-face {
   font-family: 'DM Sans';
   font-style: normal;
@@ -81,24 +90,29 @@
 }
 
 /* ── Reset & base ───────────────────────────────────────────── */
-*, *::before, *::after { box-sizing: border-box; }
-
-:root {
-  --bg:           #ffffff;
-  --sidebar-bg:   #f7f8fa;
-  --text:         #18181b;
-  --muted:        #71717a;
-  --faint:        #a1a1aa;
-  --border:       #e4e4e7;
-  --link:         #1d4ed8;
-  --accent:       #1d4ed8;
-  --mono:         'DM Mono', monospace;
-  --sans:         'DM Sans', sans-serif;
-  --body-size:    15px;
-  --body-lh:      1.7;
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
 }
 
-html, body {
+:root {
+  --bg: #ffffff;
+  --sidebar-bg: #f7f8fa;
+  --text: #18181b;
+  --muted: #71717a;
+  --faint: #46464a;
+  --border: #e4e4e7;
+  --link: #1d4ed8;
+  --accent: #1d4ed8;
+  --mono: 'DM Mono', monospace;
+  --sans: 'DM Sans', sans-serif;
+  --body-size: 16px;
+  --body-lh: 1.5;
+}
+
+html,
+body {
   background: var(--bg);
   color: var(--text);
   font-family: var(--sans);
@@ -107,9 +121,18 @@ html, body {
   -webkit-font-smoothing: antialiased;
 }
 
-a { color: var(--link); }
-a:hover { color: var(--link); text-decoration: underline; }
-a:link { text-decoration: none; }
+a {
+  color: var(--link);
+}
+
+a:hover {
+  color: var(--link);
+  text-decoration: underline;
+}
+
+a:link {
+  text-decoration: none;
+}
 
 /* ── Site header ─────────────────────────────────────────────── */
 .site-header {
@@ -141,7 +164,9 @@ a:link { text-decoration: none; }
   line-height: 1;
 }
 
-.site-header .brand:hover { text-decoration: none; }
+.site-header .brand:hover {
+  text-decoration: none;
+}
 
 .site-header nav a {
   font-family: var(--sans);
@@ -156,7 +181,9 @@ a:link { text-decoration: none; }
   font-weight: 500;
 }
 
-.site-header nav a:hover { text-decoration: underline; }
+.site-header nav a:hover {
+  text-decoration: underline;
+}
 
 /* ── Layout ──────────────────────────────────────────────────── */
 .site-container {
@@ -258,7 +285,9 @@ a:link { text-decoration: none; }
   text-decoration: none;
 }
 
-.sidebar-links a:hover { text-decoration: underline; }
+.sidebar-links a:hover {
+  text-decoration: underline;
+}
 
 .sidebar-footer {
   margin-top: 40px;
@@ -365,7 +394,7 @@ a:link { text-decoration: none; }
 .item-title {
   font-family: var(--sans);
   font-weight: 500;
-  font-size: 17px;
+  font-size: 18px;
   line-height: 1.3;
   letter-spacing: -0.01em;
   margin-bottom: 10px;
@@ -377,7 +406,9 @@ a:link { text-decoration: none; }
   text-decoration: none;
 }
 
-.item-title a:hover { text-decoration: underline; }
+.item-title a:hover {
+  text-decoration: underline;
+}
 
 /* ── Item body: feed content rendered as-is, styled minimally ── */
 .item-body {
@@ -412,7 +443,8 @@ a:link { text-decoration: none; }
   margin-bottom: 0.5em;
 }
 
-.item-body ul, .item-body ol {
+.item-body ul,
+.item-body ol {
   padding-left: 1.4em;
   margin-bottom: 0.75em;
 }
@@ -504,7 +536,9 @@ a:link { text-decoration: none; }
   font-size: 14px;
 }
 
-.danger:hover { text-decoration: underline; }
+.danger:hover {
+  text-decoration: underline;
+}
 
 /* Login form */
 .login-page {

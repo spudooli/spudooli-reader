@@ -9,8 +9,7 @@ function getfocus(a, b) {
     feedunread = document.getElementById(feedid).innerText - 1;
     document.getElementById(feedid).innerText = feedunread
     if (document.getElementById(feedid).innerText == 0) {
-        document.getElementById(feedid).style.display = "none";
-        document.getElementById("feedname-" + feedid).style.display = "none"
+        document.getElementById("feedrow-" + feedid).style.display = "none";
     }
 
     // Decrement the total unread count and remove the count if 0 and update title tag
@@ -54,9 +53,8 @@ function undoRead() {
     document.getElementById("skiddly-" + itemid).style.display = "";
 
     // Restore feed unread count
+    document.getElementById("feedrow-" + feedid).style.display = "";
     var feedEl = document.getElementById(feedid);
-    feedEl.style.display = "";
-    document.getElementById("feedname-" + feedid).style.display = "";
     feedEl.innerText = parseInt(feedEl.innerText || 0) + 1;
 
     // Restore total unread count

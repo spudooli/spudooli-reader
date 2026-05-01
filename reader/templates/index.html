@@ -10,7 +10,7 @@
 
       <ul class="feed-list">
         {% for item in unreadcounts|default([]) %}
-        <li>
+        <li id="feedrow-{{ item[2] }}">
           <span class="feed-name" id="feedname-{{ item[2] }}">{{ item[0]|truncate(22) }}</span>
           <span class="feed-count has-items" id="{{ item[2] }}">{{ item[1] }}</span>
         </li>
