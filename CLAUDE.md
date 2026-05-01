@@ -51,9 +51,28 @@ Database queries use raw MySQL cursors (no ORM). The `urlhash` MD5 column on `fe
 - `reader/db.py` — hardcodes MySQL credentials (`root`/`bobthefish`, db `reader`)
 - Passwords are hashed with `werkzeug.security.generate_password_hash` and stored in the `users` table
 
+## Frontend design
+
+The UI uses a custom CSS design system in `reader/static/style.css` — no utility framework for layout. Key structure:
+
+- **Layout:** sticky `.site-header` + `.layout-row` (`.sidebar` 25% + `.content-river` flex:1)
+- **Fonts:** DM Sans (UI) and DM Mono (dates, counts) — WOFF2 files are self-hosted in `reader/static/dm-*.woff2` with `@font-face` declarations at the top of `style.css`
+- **CSS variables:** defined in `:root` — `--bg`, `--sidebar-bg`, `--text`, `--muted`, `--faint`, `--border`, `--link`, `--accent`, `--sans`, `--mono`
+- **Secondary pages** (about, readinglist, feed-admin, login, errors) use `.content-page` wrapper
+
+**All static assets must be served locally — no external CDN for fonts, JS, or CSS.**
+
+## Frontend interactivity (`reader/static/main.js`)
+
+- `getfocus(itemid, feedid)` — marks item read, hides it, updates sidebar counts, enables undo
+- `undoRead()` — reverses the last read action
+- `setstar(itemid)` — stars an item (one-way; changes ion-icon name attribute to `star`)
+- Ionicons (self-hosted via cdnjs) used for star, undo icons — do not replace with other icon libraries
+
 ## Notes
 
 - Dates are stored in NZ timezone (`Pacific/Auckland`)
 - Bluesky (`bsky.app`) feed items get oEmbed HTML fetched from `embed.bsky.app`
 - CSRF protection is enabled via Flask-WTF on all POST routes
 - The `/readinglist` and `/about` routes are public (no login required)
+- Feed post HTML content must be rendered as-is — never modify markup inside `.item-body`

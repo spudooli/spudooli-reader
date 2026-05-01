@@ -36,14 +36,14 @@
       </div>
 
       {% for item in newsitems %}
-      <article class="feed-item" id="skiddly-{{ item[0] }}" data-feedid="{{ item[7] }}" tabindex="{{ item[0] }}">
+      <article class="feed-item" id="skiddly-{{ item[0] }}" tabindex="{{ item[0] }}">
         <div class="item-meta">
           <span class="item-source">
             <img class="favicon" src="/static/icons/{{ item[7] }}.gif" width="14" height="14" alt="">
             {{ item[5] }}
           </span>
           <div class="item-right">
-            <span class="item-date">
+            <span class="item-date" onclick="getfocus({{ item[0] }}, {{ item[7] }})">
               {{ item[6].strftime('%A, %-d %B, %Y %-H:%M %p') }}
             </span>
             <button class="star-btn" onclick="setstar({{ item[0] }})" title="Star this item">
@@ -56,7 +56,7 @@
         {% elif 'bsky' not in item[2] %}
           <h2 class="item-title"><a href="{{ item[2] }}">_</a></h2>
         {% endif %}
-        <div class="item-body" onclick="focusItem({{ item[0] }})">
+        <div class="item-body" onclick="getfocus({{ item[0] }}, {{ item[7] }})">
           {{ item[3]|replace('\n<hr>', '')|safe }}
         </div>
       </article>
