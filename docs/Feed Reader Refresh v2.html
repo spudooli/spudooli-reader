@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Spudooli Feed Reader — Refresh B</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300;1,9..40,400&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<script type="module" src="https://unpkg.com/ionicons@7.4.0/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@7.4.0/dist/ionicons/ionicons.js"></script>
+<style>
+  /* ── Reset & base ───────────────────────────────────────────── */
+  *, *::before, *::after { box-sizing: border-box; }
+
+  :root {
+    --bg:           #ffffff;
+    --sidebar-bg:   #f7f8fa;
+    --text:         #18181b;
+    --muted:        #71717a;
+    --faint:        #a1a1aa;
+    --border:       #e4e4e7;
+    --link:         #1d4ed8;
+    --accent:       #1d4ed8;
+    --mono:         'DM Mono', monospace;
+    --sans:         'DM Sans', sans-serif;
+    --body-size:    15px;
+    --body-lh:      1.7;
+  }
+
+  html, body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    font-size: var(--body-size);
+    line-height: var(--body-lh);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  a { color: var(--link); }
+  a:hover { color: var(--link); }
+
+  /* ── Site header ─────────────────────────────────────────────── */
+  .site-header {
+    border-bottom: 1px solid var(--border);
+    min-height: 56px;
+    background: var(--bg);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .site-header .site-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 72px;
+    padding: 0 2rem;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .site-header .brand {
+    font-family: var(--sans);
+    font-weight: 700;
+    font-size: 40px;
+    letter-spacing: -0.03em;
+    color: var(--text);
+    text-decoration: none;
+    white-space: nowrap;
+    line-height: 1;
+  }
+
+  .site-header nav a {
+    font-family: var(--sans);
+    font-size: 15px;
+    color: var(--link);
+    text-decoration: none;
+    margin-left: 28px;
+  }
+
+  .site-header nav a.active {
+    color: var(--text);
+    font-weight: 500;
+  }
+
+  .site-header nav a:hover {
+    text-decoration: underline;
+  }
+
+  /* ── Layout ──────────────────────────────────────────────────── */
+  .site-container {
+    max-width: 1320px;
+    margin: 0 auto;
+  }
+
+  .layout-row {
+    display: flex;
+    min-height: calc(100vh - 56px);
+  }
+
+  /* ── Sidebar ─────────────────────────────────────────────────── */
+  .sidebar {
+    width: 25%; /* col-sm-3 equivalent */
+    flex-shrink: 0;
+    background: var(--sidebar-bg);
+    border-right: 1px solid var(--border);
+    padding: 40px 32px 40px 32px;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .sidebar-count {
+    font-family: var(--sans);
+    font-size: 40px;
+    font-weight: 300;
+    letter-spacing: -0.04em;
+    color: var(--text);
+    line-height: 1;
+    margin-bottom: 2px;
+  }
+
+  .sidebar-label {
+    font-family: var(--sans);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 28px;
+  }
+
+  .feed-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 32px 0;
+  }
+
+  .feed-list li {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 7px 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .feed-list li:first-child {
+    border-top: 1px solid var(--border);
+  }
+
+  .feed-name {
+    font-family: var(--sans);
+    font-size: 13.5px;
+    color: var(--text);
+  }
+
+  .feed-count {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--faint);
+    font-weight: 400;
+    min-width: 18px;
+    text-align: right;
+  }
+
+  .feed-count.has-items {
+    color: var(--accent);
+    font-weight: 500;
+  }
+
+  .sidebar-links {
+    border-top: 1px solid var(--border);
+    padding-top: 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: auto;
+  }
+
+  .sidebar-links a {
+    font-family: var(--sans);
+    font-size: 13.5px;
+    color: var(--link);
+    text-decoration: none;
+  }
+
+  .sidebar-links a:hover { text-decoration: underline; }
+
+  .sidebar-footer {
+    margin-top: 40px;
+    font-family: var(--sans);
+    font-size: 11.5px;
+    color: var(--faint);
+    line-height: 1.8;
+  }
+
+  .sidebar-footer a {
+    color: var(--link);
+    text-decoration: none;
+  }
+
+  /* ── Content river ───────────────────────────────────────────── */
+  .content-river {
+    flex: 1;
+    padding: 0 48px 80px 48px;
+  }
+
+  /* ── Feed item chrome ────────────────────────────────────────── */
+  .feed-item {
+    padding: 28px 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .item-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    gap: 12px;
+    flex-wrap: nowrap;
+  }
+
+  .item-source {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-family: var(--sans);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--muted);
+    flex-shrink: 0;
+    white-space: nowrap;
+  }
+
+  .item-source img.favicon {
+    width: 14px;
+    height: 14px;
+    border-radius: 2px;
+    object-fit: contain;
+  }
+
+  .item-source .favicon-placeholder {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--border);
+    flex-shrink: 0;
+  }
+
+  .item-right {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    flex-shrink: 0;
+  }
+
+  .item-date {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--faint);
+    letter-spacing: 0.01em;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .star-btn {
+    background: none;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    cursor: pointer;
+    padding: 3px 6px;
+    color: var(--faint);
+    font-size: 16px;
+    line-height: 1;
+    transition: color 0.15s, border-color 0.15s;
+    display: flex;
+    align-items: center;
+  }
+
+  .star-btn:hover {
+    color: var(--accent);
+    border-color: var(--accent);
+  }
+
+  .star-btn.starred {
+    color: var(--accent);
+    border-color: var(--accent);
+  }
+
+  .star-btn ion-icon {
+    display: block;
+    font-size: 15px;
+  }
+
+  .item-title {
+    font-family: var(--sans);
+    font-weight: 500;
+    font-size: 17px;
+    line-height: 1.3;
+    letter-spacing: -0.01em;
+    margin-bottom: 10px;
+  }
+
+  .item-title a {
+    color: var(--link);
+    text-decoration: none;
+  }
+
+  .item-title a:hover {
+    text-decoration: underline;
+  }
+
+  /* ── Prose: feed body HTML rendered as-is, styled minimally ─── */
+  .item-body {
+    font-family: var(--sans);
+    font-size: var(--body-size);
+    line-height: var(--body-lh);
+    color: var(--text);
+    /* text-wrap intentionally not set so browser wraps naturally */
+  }
+
+  /* Only touch what genuinely needs a nudge inside feed HTML */
+  .item-body p {
+    margin-bottom: 0.75em;
+  }
+
+  .item-body p:last-child {
+    margin-bottom: 0;
+  }
+
+  .item-body a {
+    color: var(--link);
+  }
+
+  .item-body blockquote {
+    margin: 1em 0;
+    padding-left: 1.1em;
+    border-left: 3px solid var(--border);
+    color: var(--muted);
+    font-style: italic;
+  }
+
+  .item-body blockquote p {
+    margin-bottom: 0.5em;
+  }
+
+  .item-body ul, .item-body ol {
+    padding-left: 1.4em;
+    margin-bottom: 0.75em;
+  }
+
+  .item-body img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 4px;
+    margin: 0.5em 0;
+  }
+
+  .item-body audio {
+    width: 100%;
+    margin: 0.5em 0;
+  }
+
+  .item-body strong {
+    font-weight: 600;
+  }
+
+  .item-body code {
+    font-family: var(--mono);
+    font-size: 0.88em;
+    background: var(--sidebar-bg);
+    padding: 0.1em 0.35em;
+    border-radius: 3px;
+  }
+
+  .item-body pre {
+    background: var(--sidebar-bg);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 1em;
+    overflow-x: auto;
+    font-family: var(--mono);
+    font-size: 0.88em;
+    margin-bottom: 0.75em;
+  }
+
+  /* Starred indicator */
+  .item-starred-mark {
+    margin-top: 12px;
+    font-size: 13px;
+    color: var(--accent);
+  }
+</style>
+</head>
+<body>
+
+<!-- ── Site header ──────────────────────────────────────────────── -->
+<header class="site-header">
+  <div class="site-container">
+    <a href="#" class="brand">Spudooli Feed Reader</a>
+    <nav>
+      <a href="#" class="active">Read</a>
+      <a href="#">About</a>
+      <a href="#">Reading List</a>
+    </nav>
+  </div>
+</header>
+
+<!-- ── Layout ───────────────────────────────────────────────────── -->
+<div class="site-container">
+<div class="layout-row">
+
+  <!-- Sidebar col-sm-3 -->
+  <aside class="sidebar">
+    <div class="sidebar-count">7</div>
+    <div class="sidebar-label">Feeds</div>
+
+    <ul class="feed-list">
+      <li>
+        <span class="feed-name">OMG! Ubuntu!</span>
+        <span class="feed-count has-items">1</span>
+      </li>
+      <li>
+        <span class="feed-name">Scripting News</span>
+        <span class="feed-count has-items">1</span>
+      </li>
+      <li>
+        <span class="feed-name">The Phoblographer</span>
+        <span class="feed-count has-items">1</span>
+      </li>
+      <li>
+        <span class="feed-name">Daring Fireball</span>
+        <span class="feed-count has-items" style="color: var(--accent); font-weight: 600;">2</span>
+      </li>
+      <li>
+        <span class="feed-name">Boing Boing</span>
+        <span class="feed-count has-items">1</span>
+      </li>
+      <li>
+        <span class="feed-name">Metservice</span>
+        <span class="feed-count has-items">1</span>
+      </li>
+    </ul>
+
+    <div class="sidebar-links">
+      <a href="#">Stars</a>
+      <a href="#">Feeds Admin</a>
+    </div>
+
+    <div class="sidebar-footer">
+      <div>© Copyright 2026</div>
+      <a href="#">Spudooli Investments Ltd</a>
+    </div>
+  </aside>
+
+  <!-- Content river col-sm-9 -->
+  <main class="content-river">
+
+    <!-- Item 1: Scripting News — short linkpost, no title -->
+    <article class="feed-item">
+      <div class="item-meta">
+        <span class="item-source">
+          <span class="favicon-placeholder"></span>
+          Scripting News
+        </span>
+        <div class="item-right">
+          <span class="item-date">Friday, 1 May, 2026 14:21 PM</span>
+          <button class="star-btn" onclick="this.classList.toggle('starred'); this.querySelector('ion-icon').name = this.classList.contains('starred') ? 'star' : 'star-outline';" title="Star this item"><ion-icon name="star-outline"></ion-icon></button>
+        </div>
+      </div>
+      <!-- Feed body rendered exactly as delivered by the feed -->
+      <div class="item-body">
+        <p>Walt Frazier <a href="#">interview</a> after the game.</p>
+      </div>
+    </article>
+
+    <!-- Item 2: Daring Fireball — linked post with blockquote excerpt -->
+    <article class="feed-item">
+      <div class="item-meta">
+        <span class="item-source">
+          <span style="font-size:14px; letter-spacing:0;">🔥</span>
+          Daring Fireball
+        </span>
+        <div class="item-right">
+          <span class="item-date">Friday, 1 May, 2026 14:38 PM</span>
+          <button class="star-btn starred" onclick="this.classList.toggle('starred'); this.querySelector('ion-icon').name = this.classList.contains('starred') ? 'star' : 'star-outline';" title="Star this item"><ion-icon name="star"></ion-icon></button>
+        </div>
+      </div>
+      <h2 class="item-title"><a href="#">Scientology 'Speed Running' Trend</a></h2>
+      <!-- Feed body as-is -->
+      <div class="item-body">
+        <p>Uwa Ede-Osifo, reporting for The Guardian:</p>
+        <blockquote>
+          <p>On any given day, Los Angeles's Hollywood Boulevard teems with tourists and street performers clustered near the area's many landmarks. But in recent months, the strip has been set abuzz for a new reason.</p>
+          <p>Throngs of mostly adolescent boys and young men have been rushing the Church of Scientology's international headquarters on the famed street.</p>
+          <p>The so-called "speed runs" appear to be bids for social media valor — clips of the raids have amassed millions of views on TikTok — as much as they are an outgrowth of public intrigue surrounding the church, which has previously drawn accusations of being a cult. Some users have developed blueprints for the building based on information gathered from videos of the raids.</p>
+        </blockquote>
+        <p>I'm not condoning it, of course, but <a href="#">this video of one guy doing it</a> sure was fun to watch.</p>
+      </div>
+    </article>
+
+    <!-- Item 3: Daring Fireball — podcast with audio player and sponsored block -->
+    <article class="feed-item">
+      <div class="item-meta">
+        <span class="item-source">
+          <span style="font-size:14px; letter-spacing:0;">🔥</span>
+          Daring Fireball
+        </span>
+        <div class="item-right">
+          <span class="item-date">Friday, 1 May, 2026 14:58 PM</span>
+          <button class="star-btn" onclick="this.classList.toggle('starred'); this.querySelector('ion-icon').name = this.classList.contains('starred') ? 'star' : 'star-outline';" title="Star this item"><ion-icon name="star-outline"></ion-icon></button>
+        </div>
+      </div>
+      <h2 class="item-title"><a href="#">The Talk Show: 'Food and Beverage Director'</a></h2>
+      <!-- Feed body as-is — audio player, sponsored copy, links all exactly as the feed delivers -->
+      <div class="item-body">
+        <p>MG Siegler returns to the show to discuss Apple's announcement that Tim Cook is stepping aside (into the role of executive chairman) and John Ternus will become CEO.</p>
+        <audio controls>
+          <source src="#" type="audio/mpeg">
+        </audio>
+        <p><strong>Sponsored by:</strong></p>
+        <ul>
+          <li><a href="#">Squarespace</a>: Save 10% off your first purchase of a website or domain using code <strong>TALKSHOW</strong>.</li>
+          <li><a href="#">Drafts</a>: The Swiss Army knife for text on all your Apple devices. Act now to get your first year of Drafts Pro for 50% off.</li>
+          <li><a href="#">Finalist</a>: A daily planner for iPhone, iPad and Mac, built on proven paper-based planning methods. Use this link to get six months free.</li>
+        </ul>
+      </div>
+    </article>
+
+    <!-- Item 4: OMG! Ubuntu! — post with image -->
+    <article class="feed-item">
+      <div class="item-meta">
+        <span class="item-source">
+          <span style="font-size:14px; letter-spacing:0;">🐧</span>
+          OMG! Ubuntu!
+        </span>
+        <div class="item-right">
+          <span class="item-date">Friday, 1 May, 2026 15:18 PM</span>
+          <button class="star-btn" onclick="this.classList.toggle('starred'); this.querySelector('ion-icon').name = this.classList.contains('starred') ? 'star' : 'star-outline';" title="Star this item"><ion-icon name="star-outline"></ion-icon></button>
+        </div>
+      </div>
+      <h2 class="item-title"><a href="#">Linux App Release Roundup (April 2026)</a></h2>
+      <!-- Feed body as-is — image and text exactly as delivered -->
+      <div class="item-body">
+        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='500' height='280' viewBox='0 0 500 280'%3E%3Crect width='500' height='280' fill='%23e4e4e7'/%3E%3Cline x1='0' y1='0' x2='500' y2='280' stroke='%23d1d5db' stroke-width='1'/%3E%3Cline x1='500' y1='0' x2='0' y2='280' stroke='%23d1d5db' stroke-width='1'/%3E%3Ctext x='250' y='145' text-anchor='middle' fill='%23a1a1aa' font-family='monospace' font-size='13'%3Earticle image%3C/text%3E%3C/svg%3E" alt="Linux App Release Roundup" style="max-width:500px;">
+        <p>April 2026 has been and gone, but not before delivering an array of Linux app updates worth shouting about...</p>
+      </div>
+    </article>
+
+  </main>
+</div><!-- /.layout-row -->
+</div><!-- /.site-container -->
+
+</body>
+</html>

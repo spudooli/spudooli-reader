@@ -1,93 +1,84 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<div class="site-container">
+  <div class="layout-row">
 
-<div class="container mt-5">
-    <div class="row">
-        <div class="col-sm-3 d-none d-sm-block">
+    <aside class="sidebar">
+      <div class="sidebar-count" id="unreadcount">{{ unreadcount|default('')|safe }}</div>
+      <div class="sidebar-label">Feeds</div>
 
-            <div class="counter-box">
-                <div class="counter-number" id="unreadcount"> {{ unreadcount | safe}}</div>
-            </div>
+      <ul class="feed-list">
+        {% for item in unreadcounts|default([]) %}
+        <li>
+          <span class="feed-name" id="feedname-{{ item[2] }}">{{ item[0]|truncate(22) }}</span>
+          <span class="feed-count has-items" id="{{ item[2] }}">{{ item[1] }}</span>
+        </li>
+        {% endfor %}
+      </ul>
 
-            <h2>Feeds</h2>
+      <div class="sidebar-links">
+        <a href="{{ url_for('stars') }}">Stars</a>
+        <a href="{{ url_for('feedadmin') }}">Feeds Admin</a>
+      </div>
 
-            {% for item in unreadcounts %}
-            <div class="feeds_container">
-                <div class="feedname" id="feedname-{{ item[2] }}">{{ item[0]|truncate(22) }}</div>
-                <div class="feedunreadcount" id="{{ item[2] }}"><strong>{{ item[1] }}</strong></div>
-            </div>
-            <hr class="d-sm-none">
-            {% endfor %}
-            <div class="leftnavstuff">
-                <a href="{{ url_for('stars') }}">Stars</a><br>
-                <a href="{{ url_for('feedadmin') }}">Feeds Admin</a>
-                <div class="left-footer">
-                    <p>© Copyright {{ now.year }} <br><a href="http://www.spudooli.com" target="_blank">Spudooli
-                            Investments Ltd</a></p>
-                </div>
-            </div>
+      <div class="sidebar-footer">
+        © Copyright {{ now.year }}<br>
+        <a href="http://www.spudooli.com" target="_blank">Spudooli Investments Ltd</a>
+      </div>
+    </aside>
+
+    <main class="content-river">
+      <div style="text-align:right; min-height:1.5em; padding-top: 16px;">
+        <span id="undo-read-btn" onclick="undoRead()" style="display:none; cursor:pointer;" title="Undo last read">
+          <ion-icon name="play-back-outline" style="font-size:1.4em; vertical-align:middle;"></ion-icon>
+        </span>
+      </div>
+
+      {% for item in newsitems %}
+      <article class="feed-item" id="skiddly-{{ item[0] }}" data-feedid="{{ item[7] }}" tabindex="{{ item[0] }}">
+        <div class="item-meta">
+          <span class="item-source">
+            <img class="favicon" src="/static/icons/{{ item[7] }}.gif" width="14" height="14" alt="">
+            {{ item[5] }}
+          </span>
+          <div class="item-right">
+            <span class="item-date">
+              {{ item[6].strftime('%A, %-d %B, %Y %-H:%M %p') }}
+            </span>
+            <button class="star-btn" onclick="setstar({{ item[0] }})" title="Star this item">
+              <ion-icon id="star-{{ item[0] }}" name="{{ 'star' if item[8] else 'star-outline' }}"></ion-icon>
+            </button>
+          </div>
         </div>
-
-        <div class="col-sm-9">
-            <div style="text-align:right; min-height: 1.5em;">
-                <span id="undo-read-btn" onclick="undoRead()" style="display:none; cursor:pointer;" title="Undo last read">
-                    <ion-icon name="play-back-outline" style="font-size:1.4em; vertical-align:middle;"></ion-icon>
-                </span>
-            </div>
-            <div class="postitem" style="overflow:hidden">
-                {% for item in newsitems %}
-                <div id="skiddly-{{ item[0] }}" tabindex="{{ item[0] }}" class="itembody">
-                    <small>
-                        <div onclick="getfocus({{ item[0] }},{{ item[7] }})" style="float:right;">
-                            {{item[6].strftime('%A, %-d %B, %Y %-H:%M %p')}} </div>
-                    </small>
-                    <h6 class="faviconimg"><img src="/static/icons/{{ item[7] }}.gif" width="16" height="16"
-                            style="margin-right: 10px; margin-bottom: 3px;"> {{item[5]}} </h6>
-                    {% if item[1] == None %}
-                    {% if 'bsky' not in item[2] %}
-                    <h4><a href="{{ item[2]}}">_</a></h4>
-                    </h3>
-                    {% endif %}
-                    {% else %}
-                    <h4>
-                        <div class="star" onclick="setstar({{ item[0] }})">
-                            {% if item[8] == None %}<ion-icon id="star-{{ item[0] }}" name="star-outline"></ion-icon>
-                            {% else %} <ion-icon id="star-{{ item[0] }}" name="star"></ion-icon>
-                            {% endif %} </div> <a href="{{ item[2]}}">{{ item[1]|safe}}</a>
-                    </h4>
-                    {% endif %}
-                    <div onclick="getfocus({{ item[0] }},{{ item[7] }})">
-
-                        {{item[3] | replace("
-                        <hr>", "") | safe}}
-
-                    </div>
-                    <hr class="makesomeroom">
-                </div>
-                {% endfor %}
-
-            </div>
-
-            <script>
-                function unreadcount() {
-                    fetch('unreadcount')
-                        .then(response => response.text())
-                        .then(data => {
-                            document.getElementById('unreadcount').textContent = data;
-                            document.title = document.getElementById('unreadcount').innerText + ' Spudooli Feed Reader';
-                        });
-                }
-
-                window.onload = function () {
-                    unreadcount();
-                    setInterval(unreadcount, 60000);
-                };
-            </script>
-
-            {% endblock %}
-
-
+        {% if item[1] %}
+          <h2 class="item-title"><a href="{{ item[2] }}">{{ item[1]|safe }}</a></h2>
+        {% elif 'bsky' not in item[2] %}
+          <h2 class="item-title"><a href="{{ item[2] }}">_</a></h2>
+        {% endif %}
+        <div class="item-body" onclick="focusItem({{ item[0] }})">
+          {{ item[3]|replace('\n<hr>', '')|safe }}
         </div>
-    </div>
+      </article>
+      {% endfor %}
+
+      <script>
+        function unreadcount() {
+          fetch('unreadcount')
+            .then(response => response.text())
+            .then(data => {
+              document.getElementById('unreadcount').textContent = data;
+              document.title = document.getElementById('unreadcount').innerText + ' Spudooli Feed Reader';
+            });
+        }
+
+        window.onload = function () {
+          unreadcount();
+          setInterval(unreadcount, 60000);
+        };
+      </script>
+
+    </main>
+  </div>
 </div>
+{% endblock %}

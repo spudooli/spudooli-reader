@@ -1,5 +1,6 @@
 
 var lastRead = null;
+var focusedItem = null;
 
 function getfocus(a, b) {
     itemid = arguments[0];
@@ -80,6 +81,60 @@ function setstar(a) {
         feed: itemid
     }));
 };
+
+// ── j/k keyboard navigation ───────────────────────────────────────
+
+function getVisibleItems() {
+    return Array.from(document.querySelectorAll('.feed-item'))
+        .filter(function(el) { return el.style.display !== 'none'; });
+}
+
+function setFocusedItem(el) {
+    if (focusedItem) focusedItem.classList.remove('focused');
+    focusedItem = el;
+    if (el) {
+        el.classList.add('focused');
+        var top = el.getBoundingClientRect().top + window.scrollY - 88;
+        window.scrollTo({ top: Math.max(0, top), behavior: 'smooth' });
+    }
+}
+
+function focusItem(itemid) {
+    setFocusedItem(document.getElementById('skiddly-' + itemid));
+}
+
+document.addEventListener('keydown', function(e) {
+    if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+    if (e.key !== 'j' && e.key !== 'k') return;
+    e.preventDefault();
+
+    var items = getVisibleItems();
+    if (items.length === 0) return;
+
+    if (e.key === 'j') {
+        if (!focusedItem) {
+            setFocusedItem(items[0]);
+            return;
+        }
+        var idx = items.indexOf(focusedItem);
+        var nextItem = items[idx + 1] || null;
+        var itemid = parseInt(focusedItem.id.replace('skiddly-', ''));
+        var feedid = parseInt(focusedItem.dataset.feedid);
+        focusedItem.classList.remove('focused');
+        focusedItem = null;
+        getfocus(itemid, feedid);
+        if (nextItem) setFocusedItem(nextItem);
+    }
+
+    if (e.key === 'k') {
+        if (!focusedItem) {
+            setFocusedItem(items[items.length - 1]);
+            return;
+        }
+        var idx = items.indexOf(focusedItem);
+        if (idx > 0) setFocusedItem(items[idx - 1]);
+    }
+});
 
 
 setInterval("location.reload(true);", 300000);
