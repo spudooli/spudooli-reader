@@ -461,6 +461,15 @@ a:link {
   margin: 0.5em 0;
 }
 
+.item-body h2,
+.item-body h3,
+.item-body h2.wp-block-heading {
+  font-size: inherit;
+  font-weight: 700;
+  line-height: inherit;
+  margin-bottom: 0.5em;
+}
+
 .item-body strong {
   font-weight: 600;
 }
