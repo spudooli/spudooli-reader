@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-  <title>Spudooli Reader</title>
+  <title>{% block title %}Spudooli Reader{% endblock %}</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="robots" content="noindex,nofollow">
@@ -15,7 +15,8 @@
   <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
 </head>
 
-<body>
+<body class="{% block body_class %}{% endblock %}">
+  {% block chrome %}
   <header class="site-header">
     <div class="site-container">
       <a href="/" class="brand">Spudooli Feed Reader</a>
@@ -30,6 +31,7 @@
   {% for message in get_flashed_messages() %}
   <div class="flash">{{ message }}</div>
   {% endfor %}
+  {% endblock %}
 
   {% block content %}{% endblock %}
 

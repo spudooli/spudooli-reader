@@ -493,7 +493,7 @@ a:link {
   margin-bottom: 0.75em;
 }
 
-/* ── Secondary pages (about, readinglist, feed-admin, login) ─── */
+/* ── Secondary pages (about, readinglist, feed-admin) ────────── */
 .content-page {
   max-width: 740px;
   margin: 48px auto 80px;
@@ -549,18 +549,164 @@ a:link {
   text-decoration: underline;
 }
 
-/* Login form */
-.login-page {
-  max-width: 400px;
-  margin: 80px auto;
-  padding: 0 24px;
+/* ── Login (shared Spudooli split-screen, light only) ────────── */
+body.login {
+  display: flex;
+  align-items: stretch;
+  min-height: 100vh;
 }
 
-.login-page h3 {
-  font-family: var(--sans);
+.loginL {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 32px;
+  padding: 56px;
+  border-right: 1px solid var(--border);
+  background:
+    radial-gradient(900px 500px at 10% 110%, rgba(29, 78, 216, 0.10), transparent 60%),
+    var(--sidebar-bg);
+}
+
+.loginL .wm {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  font-size: 34px;
   font-weight: 600;
-  font-size: 20px;
+  letter-spacing: -0.03em;
+  color: var(--text);
+}
+
+.loginL .wm .sq {
+  width: 22px;
+  height: 22px;
+  border-radius: 6px;
+  background: var(--accent);
+}
+
+.loginL .big {
+  font-size: clamp(34px, 4.6vw, 58px);
+  font-weight: 600;
+  letter-spacing: -0.035em;
+  line-height: 1.05;
+  max-width: 520px;
+  color: var(--text);
+}
+
+.loginL .big span {
+  color: var(--muted);
+}
+
+.loginL .meta {
+  font-family: var(--mono);
+  font-size: 13px;
+  line-height: 1.8;
+  color: var(--faint);
+}
+
+.loginR {
+  flex: 0 0 440px;
+  width: 440px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 56px;
+  background: var(--bg);
+}
+
+.loginR h2 {
+  font-family: var(--sans);
+  font-size: 26px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  margin: 0;
+}
+
+.loginR p {
+  margin: 6px 0 32px;
+  font-size: 14px;
+  color: var(--muted);
+}
+
+.ufield {
   margin-bottom: 24px;
+}
+
+.ufield label {
+  display: block;
+  margin-bottom: 2px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.ufield input {
+  width: 100%;
+  padding: 10px 0 8px;
+  background: transparent;
+  border: 0;
+  border-bottom: 1.5px solid var(--border);
+  border-radius: 0;
+  font-family: var(--mono);
+  font-size: 18px;
+  color: var(--text);
+  outline: none;
+}
+
+.ufield input:focus {
+  border-bottom-color: var(--accent);
+}
+
+.loginR .btn {
+  width: 100%;
+  margin-top: 12px;
+  padding: 13px;
+  background: var(--accent);
+  color: #ffffff;
+  border: 0;
+  border-radius: 10px;
+  font-family: var(--sans);
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.loginR .btn:hover {
+  background: #1b45c0;
+  color: #ffffff;
+}
+
+.loginR .err {
+  margin-bottom: 18px;
+  padding: 9px 12px;
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  border-radius: 7px;
+  font-size: 13px;
+  color: #b91c1c;
+}
+
+@media (max-width: 900px) {
+  body.login {
+    flex-direction: column;
+  }
+
+  .loginL {
+    border-right: 0;
+    border-bottom: 1px solid var(--border);
+    padding: 32px;
+    gap: 48px;
+  }
+
+  .loginR {
+    flex: 0 0 auto;
+    width: 100%;
+    padding: 32px;
+  }
 }
 
 /* Flash messages */
@@ -585,4 +731,46 @@ a:link {
   color: var(--text);
   line-height: 1;
   margin-bottom: 20px;
+}
+
+/* ── Phones: drop the sidebar, river gets the full width ─────── */
+@media (max-width: 768px) {
+  .sidebar {
+    display: none;
+  }
+
+  .layout-row {
+    display: block;
+  }
+
+  .content-river {
+    padding: 0 16px 60px 16px;
+  }
+
+  .site-header .site-container {
+    padding: 0 16px;
+    min-height: 60px;
+  }
+
+  .site-header .brand {
+    font-size: 24px;
+  }
+
+  .site-header nav a {
+    margin-left: 0;
+    margin-right: 20px;
+  }
+
+  .site-header nav a:last-child {
+    margin-right: 0;
+  }
+
+  .content-page {
+    margin-top: 32px;
+    padding: 0 16px;
+  }
+
+  #a500 {
+    font-size: 96px;
+  }
 }

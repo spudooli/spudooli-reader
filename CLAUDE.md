@@ -58,15 +58,23 @@ The UI uses a custom CSS design system in `reader/static/style.css` — no utili
 - **Layout:** sticky `.site-header` + `.layout-row` (`.sidebar` 25% + `.content-river` flex:1)
 - **Fonts:** DM Sans (UI) and DM Mono (dates, counts) — WOFF2 files are self-hosted in `reader/static/dm-*.woff2` with `@font-face` declarations at the top of `style.css`
 - **CSS variables:** defined in `:root` — `--bg`, `--sidebar-bg`, `--text`, `--muted`, `--faint`, `--border`, `--link`, `--accent`, `--sans`, `--mono`
-- **Secondary pages** (about, readinglist, feed-admin, login, errors) use `.content-page` wrapper
+- **Secondary pages** (about, readinglist, feed-admin, errors) use `.content-page` wrapper
+
+**Login page** uses the shared Spudooli split-screen design language (same markup/classes as the `negative` and `sitestats` projects: `.loginL` / `.loginR` / `.wm` / `.big` / `.meta` / `.ufield` / `.err`). Light mode only — the other two projects are dark, this one deliberately is not. It suppresses the site header via `{% block chrome %}{% endblock %}` and sets `{% block body_class %}login{% endblock %}`.
 
 **All static assets must be served locally — no external CDN for fonts, JS, or CSS.**
 
 ## Frontend interactivity (`reader/static/main.js`)
 
-- `getfocus(itemid, feedid)` — marks item read, hides it, updates sidebar counts, enables undo
-- `undoRead()` — reverses the last read action
+Reading is driven by a **cursor** over the `.feed-item` articles (`items` / `state` / `readHistory` / `cursor` in `main.js`). Each item is `unread`, `read` (marked read on the server and hidden), or `revealed` (read, but pulled back into view). Articles carry `data-item` and `data-feed` for this.
+
+- `j` — marks the item at the cursor read, hides it, scrolls the next one under the sticky header
+- `k` — un-hides the most recently hidden item and puts the cursor back on it. Google Reader style: repeated presses walk further back. The item **stays read on the server** and the sidebar counts do not go back up — revealed items exist only until the next page load, and are never re-fetched from the database
+- `getfocus(itemid, feedid)` — click handler on the item body and date; marks read, hides, updates sidebar counts. Clicking below the cursor leaves the cursor alone so `j` still resumes from the top of the river
+- `undoRead()` — the undo arrow, now just `k` with a mouse
 - `setstar(itemid)` — stars an item (one-way; changes ion-icon name attribute to `star`)
+
+Counts are only decremented when an item moves out of `unread`, so re-reading a revealed item never double-counts. `/stars` renders the same template without a sidebar, so all count updates are null-guarded.
 - Ionicons (self-hosted via cdnjs) used for star, undo icons — do not replace with other icon libraries
 
 ## Notes

@@ -1,20 +1,34 @@
 {% extends 'base.html' %}
+{% block title %}Sign in · Reader{% endblock %}
+{% block body_class %}login{% endblock %}
+
+{% block chrome %}{% endblock %}
 
 {% block content %}
-<div class="login-page">
-  <h3>Log in</h3>
+<div class="loginL">
+  <div class="wm"><span class="sq"></span>reader</div>
+  <div class="big">All my feeds,<br><span>none of the noise.</span></div>
+  <div class="meta">
+    self-hosted rss · no algorithm <br>
+    Another <a href="https://www.spudooli.com">Spudooli</a> project
+  </div>
+</div>
+
+<div class="loginR">
+  <h2>Sign in</h2>
+  <p>Authorised access only.</p>
   <form method="post">
     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
-    <div class="mb-3">
-      <label for="username" class="form-label">Username</label>
-      <input name="username" class="form-control" id="username" required>
-      <div id="emailHelp" class="form-text">You don't have a username here</div>
+    {% for message in get_flashed_messages() %}<div class="err">{{ message }}</div>{% endfor %}
+    <div class="ufield">
+      <label for="username">Username</label>
+      <input id="username" name="username" type="text" autocomplete="username" autofocus required>
     </div>
-    <div class="mb-3">
-      <label for="password" class="form-label">Password</label>
-      <input type="password" class="form-control" name="password" id="password" required>
+    <div class="ufield">
+      <label for="password">Password</label>
+      <input id="password" name="password" type="password" autocomplete="current-password" required>
     </div>
-    <input type="submit" value="Log In" class="btn btn-primary">
+    <button class="btn" type="submit">Sign in &rarr;</button>
   </form>
 </div>
 {% endblock %}

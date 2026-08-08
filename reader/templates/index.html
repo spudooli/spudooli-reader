@@ -30,13 +30,14 @@
 
     <main class="content-river">
       <div style="height:0; overflow:visible; text-align:right; position:relative; z-index:1;">
-        <span id="undo-read-btn" onclick="undoRead()" style="display:none; cursor:pointer;" title="Undo last read">
+        <span id="undo-read-btn" onclick="undoRead()" style="display:none; cursor:pointer;" title="Previous post (k)">
           <ion-icon name="play-back-outline" style="font-size:1.4em; vertical-align:middle;"></ion-icon>
         </span>
       </div>
 
       {% for item in newsitems %}
-      <article class="feed-item" id="skiddly-{{ item[0] }}" tabindex="{{ item[0] }}">
+      <article class="feed-item" id="skiddly-{{ item[0] }}" tabindex="{{ item[0] }}"
+               data-item="{{ item[0] }}" data-feed="{{ item[7] }}">
         <div class="item-meta">
           <span class="item-source">
             <img class="favicon" src="/static/icons/{{ item[7] }}.gif" width="14" height="14" alt="">
